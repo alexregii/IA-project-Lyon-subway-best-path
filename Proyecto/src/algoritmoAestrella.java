@@ -1,14 +1,10 @@
 import java.util.ArrayList;
-import java.util.Comparator;
-//import javafx.util.Pair;  
-//import javafx.util.Map;  
-//import javafx.util.HashMap;  
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
+
 
 /* FUNCIONAMIENTO A*
  * Vamos a tener todas las estaciones asociadas a un int (podremos sacar luego su nombre de un hashmap)
@@ -16,7 +12,7 @@ import java.util.Set;
  * 
  * Para los tiempos es en segundos todo. Las 0:00:00 es 0 y las 23:59:59 es 86399 (tener cuidado con viajes que empiezan tarde)
  * TODO Horarios de todas las estaciones pasados a este formato 
- * 
+ * TODO los costes en segundos también
  * estacionesPosibles: dada una estacion devuelve a que estaciones están adyacentes a ella
  * distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano
  * y luego sabiendo la distancia entre las estaciones de trasbordo que es fija 
@@ -101,25 +97,13 @@ public class algoritmoAestrella{
  */
     }
 
+    private int tiempoAdy(int estacion1, int estacion2, int horaActual){ 
+        //Da el tiempo que se tarda de ir a una estacion a otra siendo estas adyacentes.
+        //Tiene en cuenta tiempo de trasbordo
+        int res = 0;  
+       
 
-    private int funcionObjetivo(int distanciaEur, int coste, int horaActual){
-
-
-
-        return 0;
-    }
-
-    private int calculaCoste(int origen, int destino, int horaActual){
-
-
-
-        return 0;
-    }
-
-    private ArrayList<Integer> estacionesPosibles(int estacion){ 
-
-        //estacionesPosibles: dada una estacion devuelve a que estaciones están adyacentes a ella
-        return null; 
+        return res;
     }
 
     private int distEur(int orig, int dest){
@@ -143,52 +127,70 @@ public class algoritmoAestrella{
         return 0;
     }
 
-    public int calculaTiempo(ArrayList<Integer> camino){
 
-        //trasbordoMasCercano: dado un camino de estaciones en forma de ArrayList devuelve el tiempo que tarda en recorrerlo (hay que tener en cuenta horarios)
-
-        return 0;
-    }
-
+    //Devuelve el camino de estaciones. La última posición del array no es una estación, es el coste 
     private ArrayList<Integer> Aestrella(int inicio, int destino, int horaIni){
 
-        PriorityQueue<Estacion> openSet = new PriorityQueue<>(Comparator.comparingInt(node -> node.getCost() + node.getHeuristic()));
-        Set<Integer> closedSet = new HashSet<>();
-        Map<Integer, Integer> cameFrom = new HashMap<>();
-        Map<Integer, Integer> costSoFar = new HashMap<>();
+        Set<Estacion> listaAbierta = new HashSet<>();
+        Set<Integer> listaCerrada = new HashSet<>();
+        Map<Integer, Integer> vieneDe = new HashMap<>();
+        Map<Integer, Integer> costePorAhora = new HashMap<>();
         Iterator<Integer> it;
+        //Coste está en SEGUNDOS
+        listaAbierta.add(new Estacion(inicio, 0, distEur(inicio, destino), horaIni));
 
-        openSet.add(new Estacion(inicio, 0, distEur(inicio, destino)));
+        vieneDe.put(inicio, -1);
+        costePorAhora.put(inicio, 0);
+        Estacion posActual;
+        while (!listaAbierta.isEmpty()) {
 
-        cameFrom.put(inicio, null);
-        costSoFar.put(inicio, 0);
+            //Calcular posición actual nueva
+            Iterator<Estacion> it2 = listaAbierta.iterator();
+            int costeMenor = 99999999;
+            Estacion posibleSiguiente = null;
+           // int posActualPrima = posActual;
+            while (it2.hasNext()) {
+                Estacion siguiente =  it2.next();
 
-        while (!openSet.isEmpty()) {
-            Estacion posActual = openSet.poll();
+                if (siguiente.getFun() < costeMenor){
+                    costeMenor = siguiente.getFun() ;
+                    posibleSiguiente = siguiente; //Me he movido
+                    
+                }
+                 
 
-            if (posActual.getPosition() == destino) {
-                return reconstructPath(cameFrom, posActual.getPosition());
+            }
+            posActual = posibleSiguiente;
+            listaAbierta.remove(posActual);
+
+
+            if (posActual.getPos() == destino) {
+                return recorrido(vieneDe, destino, costePorAhora.get(destino));
             }
 
-            closedSet.add(posActual.getPosition());
+            listaCerrada.add(posActual.getPos());
 
-            //No lo entiendo bien
-            it = conexiones.get(posActual.getPosition()).iterator(); 
+            
+            it = conexiones.get(posActual.getPos()).iterator(); 
 
             while(it.hasNext()) {
-                int neighbor = it.next();
-                if (closedSet.contains(neighbor)) {
-                    continue;
+                int conexion = it.next();
+                if (!listaCerrada.contains(conexion)) {
+
+                    int tiempoTardo = tiempoAdy(posActual.getPos(), conexion, posActual.getHoraLlego());
+
+                    int nuevoCoste = costePorAhora.get(posActual.getPos()) + tiempoTardo; 
+
+                    if (!costePorAhora.containsKey(conexion) || nuevoCoste < costePorAhora.get(conexion)) {
+                        costePorAhora.put(conexion, nuevoCoste);
+                        int funcion = nuevoCoste + distEur(conexion, destino)/7;  //Ojito 2 min -- 840 m 
+                        int horaNueva = posActual.getHoraLlego() + tiempoTardo;
+                        listaAbierta.add(new Estacion(conexion, nuevoCoste, funcion, horaNueva));
+                        vieneDe.put(conexion, posActual.getPos());
+                    }
                 }
 
-                int newCost = costSoFar.get(posActual.getPosition()) + 1; //Por qué +1
-
-                if (!costSoFar.containsKey(neighbor) || newCost < costSoFar.get(neighbor)) {
-                    costSoFar.put(neighbor, newCost);
-                    int priority = newCost + distEur(neighbor, destino); //Ojito
-                    openSet.add(new Estacion(neighbor, newCost, priority));
-                    cameFrom.put(neighbor, posActual.getPosition());
-                }
+                
             }
         }
 
@@ -196,197 +198,55 @@ public class algoritmoAestrella{
         return null;
     }
 
-
-
-/* 
-     int posActual = inicio;
-        ArrayList<Integer> res = new ArrayList<>();
-        ArrayList<Integer> listaAbierta = new ArrayList<>();
-        ArrayList<Integer> listaCerrada = new ArrayList<>();
-        ArrayList<Integer> puedoLlegar = new ArrayList<>();
-        Iterator<Integer> it = conexiones.get( (Integer) posActual).iterator(); 
-        Map<Integer, Integer> vengoDe = new HashMap<>();
-        while (it.hasNext()){
-            listaAbierta.add(it.next());
+    private ArrayList<Integer> recorrido(Map<Integer, Integer> vieneDe, int actual, int costeTotal) {
+        ArrayList<Integer> caminoRe = new ArrayList<>();
+        while (actual != -1) {
+            caminoRe.add(actual);
+            actual = vieneDe.get(actual);
         }
-        listaCerrada.add(inicio);
+        //Están en orden al revés
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        for (int i = caminoRe.size() - 1; i >= 0; i--) {
 
-
-        while (!listaAbierta.isEmpty()) {
-            
-            puedoLlegar = conexiones.get( (Integer) posActual); 
-
-
-
-
-
-
-            //Calcular posición actual nueva
-            Iterator<Integer> it2 = listaAbierta.iterator();
-            int horaActual = horaIni; //TODO
-            int costeMenor = 99999999;
-            int posActualPrima = posActual;
-            while (it2.hasNext()) {
-                int posibleSiguiente = (int) it2.next();
-                vengoDe.put(posibleSiguiente, posActualPrima); //Ojo aqui
-                
-                int costeAso = calculaCoste( posibleSiguiente , destino, horaActual);
-                if (costeAso < costeMenor){
-                    costeMenor = costeAso;
-                    posActual = posibleSiguiente; //Me he movido
-                    listaAbierta.remove(posActual);
-                    listaCerrada.add(posActual);
-                }
-                 
-
-            }
-
-            
-
-            
-            if (puedoLlegar.contains(destino)){
-                res.add(destino);
-                return res;
-            }
-
-            closedSet.add(current.getPosition());
-
-            for (int neighbor : graph.getOrDefault(current.getPosition(), Collections.emptyList())) {
-                if (closedSet.contains(neighbor)) {
-                    continue;
-                }
-
-                int newCost = costSoFar.get(current.getPosition()) + 1;
-
-                if (!costSoFar.containsKey(neighbor) || newCost < costSoFar.get(neighbor)) {
-                    costSoFar.put(neighbor, newCost);
-                    int priority = newCost + heuristic(neighbor, goal);
-                    openSet.add(new Node(neighbor, newCost, priority));
-                    cameFrom.put(neighbor, current.getPosition());
-                }
-            }
+            res.add(caminoRe.get(i));
         }
 
-        Iterator it = puedoLlegar.iterator();
+        res.add(costeTotal); //Añado al final el coste
 
-        //Ha habido un error, siempre se puede hacer un camino
-        return null;
-*/
-
-
-    private ArrayList<Integer> reconstructPath(Map<Integer, Integer> cameFrom, int current) {
-        ArrayList<Integer> path = new ArrayList<>();
-        while (current != -1) {
-            path.add(current);
-            current = cameFrom.get(current);
-        }
-        //Collections.reverse(path);
-        return path;
+        return res;
     }
 
     private static class Estacion {
         private final int posicion;
         private final int coste;
-        private final int eur;
+        private final int funcion;
+        private final int horaLlego;
 
-        public Estacion(int position, int cost, int heuristic) {
-            this.posicion = position;
-            this.coste = cost;
-            this.eur = heuristic;
+        public Estacion(int posicion, int coste, int funcion, int horaLlego) {
+            this.posicion = posicion;
+            this.coste = coste;
+            this.funcion = funcion;
+            this.horaLlego = horaLlego;
         }
 
-        public int getPosition() {
+        public int getPos() {
             return posicion;
         }
 
-        public int getCost() {
+        public int getCoste() {
             return coste;
         }
 
-        public int getHeuristic() {
-            return eur;
+        public int getFun() {
+            return funcion;
+        }
+
+        public int getHoraLlego() {
+            return horaLlego;
         }
     }
 
-/*import java.util.*;
 
-class AStarAlgorithm {
-    private Map<Integer, List<Integer>> graph;
-
-    public AStarAlgorithm(Map<Integer, List<Integer>> graph) {
-        this.graph = graph;
-    }
-
-    public List<Integer> findPath(int start, int goal) {
-        PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(node -> node.getCost() + node.getHeuristic()));
-        Set<Integer> closedSet = new HashSet<>();
-        Map<Integer, Integer> cameFrom = new HashMap<>();
-        Map<Integer, Integer> costSoFar = new HashMap<>();
-
-        openSet.add(new Node(start, 0, heuristic(start, goal)));
-
-        cameFrom.put(start, null);
-        costSoFar.put(start, 0);
-
-        while (!openSet.isEmpty()) {
-            Node current = openSet.poll();
-
-            if (current.getPosition() == goal) {
-                return reconstructPath(cameFrom, current.getPosition());
-            }
-
-            closedSet.add(current.getPosition());
-
-            for (int neighbor : graph.getOrDefault(current.getPosition(), Collections.emptyList())) {
-                if (closedSet.contains(neighbor)) {
-                    continue;
-                }
-
-                int newCost = costSoFar.get(current.getPosition()) + 1;
-
-                if (!costSoFar.containsKey(neighbor) || newCost < costSoFar.get(neighbor)) {
-                    costSoFar.put(neighbor, newCost);
-                    int priority = newCost + heuristic(neighbor, goal);
-                    openSet.add(new Node(neighbor, newCost, priority));
-                    cameFrom.put(neighbor, current.getPosition());
-                }
-            }
-        }
-
-        // No se encontró un camino (no debería pasar nunca)
-        return null;
-    }
-
-    private List<Integer> reconstructPath(Map<Integer, Integer> cameFrom, int current) {
-        List<Integer> path = new ArrayList<>();
-        while (current != -1) {
-            path.add(current);
-            current = cameFrom.get(current);
-        }
-        Collections.reverse(path);
-        return path;
-    }
-
-    private int distEur(int orig, int dest){
-
-        //distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano
-        //y luego sabiendo la distancia entre las estaciones de trasbordo que es fija 
-
-        int orig1 = trasbordoMasCercano(orig);
-        int dest1 = trasbordoMasCercano(dest);
-
-
-
-
-        return 0;
-    }
-
-    
-}
- * 
- * 
- * 
- */
 
 
 

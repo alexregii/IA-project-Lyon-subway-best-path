@@ -61,19 +61,142 @@ public class algoritmoAestrella{
     public void inicializa(){
 
         //Hashmap estaciones
-        
+        //LINEA C
         codEstacion.put(1, "Cuire");
-        codEstacion.put(2, "Hénon"); 
-        // TODO Así con todas
+        codEstacion.put(2, "Hénon");
+        codEstacion.put(3, "Croix-Rousse");
+        codEstacion.put(4, "Croix Paquet");
+        codEstacion.put(5, "Hôtel de Ville L. Pradel");
+
+        //LINEA B
+        codEstacion.put(6, "Charpennes");
+        codEstacion.put(7, "Brotteaux ");
+        codEstacion.put(8, "Gare Part-Dieu V. Merle");
+        codEstacion.put(9, "Place Guichard");
+        codEstacion.put(10, "Saxe Gambetta");
+        codEstacion.put(11, "Jean Macé");
+        codEstacion.put(12, " Place Jean Jaurès");
+        codEstacion.put(13, "Debourg");
+        codEstacion.put(14, "Stade de Gerland ");
+        codEstacion.put(15, "Gare d’Oullins");
+
+         //LINEA A
+        codEstacion.put(16, "Vaulx-en-Velin La Soie");
+        codEstacion.put(17, "Laurent Bonnevay");
+        codEstacion.put(18, "Cusset ");
+        codEstacion.put(19, "Flachet ");
+        codEstacion.put(20, "Gratte Ciel");
+        codEstacion.put(21, "République Villeurbanne");
+        //Charpennes ya esta por linea B
+        codEstacion.put(22, "Masséna ");
+        codEstacion.put(23, "Foch ");
+        //Hôtel de Ville L. Prade ya esta por linea C
+        codEstacion.put(24, "Cordeliers ");
+        codEstacion.put(25, "Bellecour ");
+        codEstacion.put(26, " Ampère-Victor Hugo");
+        codEstacion.put(27, "Perrache ");
+
+        //LINEA D
+        codEstacion.put(28, "Gare de Vénissieux");
+        codEstacion.put(29, "Parilly ");
+        codEstacion.put(30, "Mermoz - Pinel ");
+        codEstacion.put(31, "Laennec");
+        codEstacion.put(32, "Grange Blanche");
+        codEstacion.put(33, "Monplaisir Lumière");
+        codEstacion.put(34, "Sans Souci ");
+        codEstacion.put(35, "Garibaldi ");
+        //Saxe Gambetta ya esta por la linea B
+        codEstacion.put(36, "Guillotière Gabriel Péri ");
+        //Bellecour ya esta por la linea A
+        codEstacion.put(37, " Vieux Lyon");
+        codEstacion.put(38, " Gorge de Loup");
+        codEstacion.put(39, "Valmy ");
+        codEstacion.put(40, "Gare de Vaise ");
+
+        
+
+       
+        
 
         //Hashmap conexiones
         
+        //LINEA C
         ArrayList<Integer> cuire = new ArrayList<>();
         cuire.add(2); //Cuire solo conecta con Hénon
-        conexiones.put( 1, cuire); 
+        conexiones.put( 1, cuire);
+
         ArrayList<Integer> henon = new ArrayList<>();
         henon.add(1); henon.add(3);//Hénon conecta con Cuire y Croix-Rousse
-        conexiones.put( 2, henon); 
+        conexiones.put( 2, henon);
+
+        ArrayList<Integer> CroixRousse = new ArrayList<>();
+        CroixRousse.add(2); CroixRousse.add(4);//Croix-Rousse conecta con henon y con Croix-paquet
+        conexiones.put(3, CroixRousse);
+
+        ArrayList<Integer> CroixPaquet = new ArrayList<>();
+        CroixPaquet.add(3); CroixPaquet.add(5);//CroixPaquet conecta con Croix-Rousse y Hôtel de Ville L. Pradel
+        conexiones.put( 4, CroixPaquet);
+
+         ArrayList<Integer> HoteldeVilleLPradel = new ArrayList<>();
+        HoteldeVilleLPradel.add(4); HoteldeVilleLPradel.add(23); HoteldeVilleLPradel.add(24);//HoteldeVilleLPradel conecta con foch, croix paquet y cordellers
+        conexiones.put( 5, HoteldeVilleLPradel);  
+
+        //LINEA A
+        ArrayList<Integer> VaulxenVelinLaSoie = new ArrayList<>();
+        VaulxenVelinLaSoie.add(17); //VaulxenVelinLaSoie solo conecta con LaurentBonnevay
+        conexiones.put( 16, VaulxenVelinLaSoie);
+
+        ArrayList<Integer> LaurentBonnevay = new ArrayList<>();
+        LaurentBonnevay.add(16); LaurentBonnevay.add(18);//LaurentBonnevay conecta con VaulxenVelinLaSoie y Cusset
+        conexiones.put( 17, LaurentBonnevay);
+
+        ArrayList<Integer> Cusset = new ArrayList<>();
+        Cusset.add(17); Cusset.add(19);//Cusset conecta con LaurentBonnevay y con Flachet
+        conexiones.put(18, Cusset);
+
+        ArrayList<Integer> Flachet = new ArrayList<>();
+        Flachet.add(18); Flachet.add(20);//Flachet conecta con Cusset y Hôtel de GratteCiel
+        conexiones.put( 19, CroixPaquet);
+
+         ArrayList<Integer> GratteCiel = new ArrayList<>();
+        GratteCiel.add(19); GratteCiel.add(21); //GratteCiel conecta con Flachet y République Villeurbanne
+        conexiones.put( 20, GratteCiel);
+
+         ArrayList<Integer> RepubliqueVilleurbanne = new ArrayList<>();
+        RepubliqueVilleurbanne.add(20);RepubliqueVilleurbanne.add(6); //RépubliqueVilleurbanne conecta con GratteCiel y Charpennes
+        conexiones.put( 21, RepubliqueVilleurbanne);
+
+        ArrayList<Integer> Charpennes = new ArrayList<>();
+        Charpennes.add(21); Charpennes.add(22);Charpennes.add(7);//Charpennes conecta con RepubliqueVilleurbanne, Masséna y con Brotteaux
+        conexiones.put( 6, Charpennes);
+
+        ArrayList<Integer> Masséna = new ArrayList<>();
+        Masséna.add(6); Masséna.add(23);//Masséna conecta con LaurentBonnevay y con Foch
+        conexiones.put(22, Masséna);
+
+        ArrayList<Integer> Foch = new ArrayList<>();
+        Foch.add(22); Foch.add(5);//Foch conecta con Masséna y HoteldeVilleLPradel
+        conexiones.put( 23, Foch);
+
+         ArrayList<Integer> Cordeliers = new ArrayList<>();
+        Cordeliers.add(5); Cordeliers.add(25); //Cordeliers conecta con HoteldeVilleLPradel y Bellecour
+        conexiones.put( 24, Cordeliers);
+
+        ArrayList<Integer> Bellecour = new ArrayList<>();
+        Bellecour.add(24); Bellecour.add(26); //Bellecour conecta con Cordeliers y AmpèreVictorHugo
+        conexiones.put( 25, Bellecour);
+
+        ArrayList<Integer> AmpèreVictorHugo = new ArrayList<>();
+        AmpèreVictorHugo.add(25); AmpèreVictorHugo.add(27); //AmpèreVictorHugo conecta con Bellecour y Perrache
+        conexiones.put( 26, AmpèreVictorHugo);
+
+        ArrayList<Integer> Perrache = new ArrayList<>();
+        Perrache.add(26);//GratteCiel conecta con AmpèreVictorHugo 
+        conexiones.put( 27, Perrache);
+
+        //LINEA B
+
+        
         // TODO Así con todas
 
 

@@ -42,8 +42,8 @@ public class algoritmoAestrella{
     private ArrayList tiemposB = new ArrayList<>();
     private ArrayList tiemposC = new ArrayList<>();
     private ArrayList tiemposD = new ArrayList<>();
-    private Map<Integer, String> codEstacion = new HashMap<Integer, String>(); 
-    private Map<Integer, ArrayList<Integer>> conexiones = new HashMap<>(); 
+    private static Map<Integer, String> codEstacion = new HashMap<Integer, String>(); 
+    private static Map<Integer, ArrayList<Integer>> conexiones = new HashMap<>(); 
     //private Map estaciones= new HashMap();
 
 
@@ -52,13 +52,15 @@ public class algoritmoAestrella{
     //Trasbordos: Belecour - Charpennes (2680 ), Saxo Gamebta - Hotel de ville (1710 )
 
     public static  void main(  String[]args){
-        System.out.println("Dummy");    
+        inicializa();
+        System.out.println(conexiones.toString());
+          
         
     }
 
 
 
-    public void inicializa(){
+    public static void inicializa(){
 
         //Hashmap estaciones
         //LINEA C
@@ -156,7 +158,7 @@ public class algoritmoAestrella{
 
         ArrayList<Integer> Flachet = new ArrayList<>();
         Flachet.add(18); Flachet.add(20);//Flachet conecta con Cusset y Hôtel de GratteCiel
-        conexiones.put( 19, CroixPaquet);
+        conexiones.put( 19, Flachet);
 
          ArrayList<Integer> GratteCiel = new ArrayList<>();
         GratteCiel.add(19); GratteCiel.add(21); //GratteCiel conecta con Flachet y République Villeurbanne
@@ -233,23 +235,7 @@ public class algoritmoAestrella{
         conexiones.put( 15, GaredOullins);
         
         //LINEA D
-        /*
-        codEstacion.put(28, "Gare de Vénissieux");
-        codEstacion.put(29, "Parilly ");
-        codEstacion.put(30, "Mermoz - Pinel ");
-        codEstacion.put(31, "Laennec");
-        codEstacion.put(32, "Grange Blanche");
-        codEstacion.put(33, "Monplaisir Lumière");
-        codEstacion.put(34, "Sans Souci ");
-        codEstacion.put(35, "Garibaldi ");
-        //Saxe Gambetta ya esta por la linea B
-        codEstacion.put(36, "Guillotière Gabriel Péri ");
-        //Bellecour ya esta por la linea A
-        codEstacion.put(37, " Vieux Lyon");
-        codEstacion.put(38, " Gorge de Loup");
-        codEstacion.put(39, "Valmy ");
-        codEstacion.put(40, "Gare de Vaise "); */
-
+        
         ArrayList<Integer> GaredeVénissieux = new ArrayList<>();
         GaredeVénissieux.add(29); //GaredeVénissieux  conecta con Parilly
         conexiones.put( 28, GaredeVénissieux);
@@ -284,7 +270,7 @@ public class algoritmoAestrella{
 
         ArrayList<Integer> GuillotièreGabrielPéri = new ArrayList<>();
         GuillotièreGabrielPéri.add(10);GuillotièreGabrielPéri.add(25);//GuillotièreGabrielPéri conecta con Saxe Gambetta y Bellecour
-        conexiones.put( 36, GaredOullins);
+        conexiones.put( 36, GuillotièreGabrielPéri);
 
          ArrayList<Integer>  VieuxLyon = new ArrayList<>();
         VieuxLyon.add(25);VieuxLyon.add(38); //VieuxLyon conecta con Bellecour y GorgedeLoup

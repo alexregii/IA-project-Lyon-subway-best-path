@@ -196,7 +196,112 @@ public class algoritmoAestrella{
 
         //LINEA B
 
+        ArrayList<Integer> Brotteaux = new ArrayList<>();
+        Brotteaux.add(6);Brotteaux.add(8); //Brotteaux  conecta con Charpennes y GarePartDieuVMerle
+        conexiones.put( 7, Brotteaux);
+
+        ArrayList<Integer> GarePartDieuVMerle = new ArrayList<>();
+        GarePartDieuVMerle.add(7); GarePartDieuVMerle.add(9);//GarePartDieuVMerle conecta con Brotteaux y PlaceGuichard
+        conexiones.put( 8, GarePartDieuVMerle);
+
+        ArrayList<Integer> PlaceGuichard = new ArrayList<>();
+        PlaceGuichard.add(8); PlaceGuichard.add(10);//PlaceGuichard conecta con GarePartDieuVMerle y con SaxeGambetta
+        conexiones.put(9, PlaceGuichard);
+
+        ArrayList<Integer> SaxeGambetta = new ArrayList<>();
+        SaxeGambetta.add(9); SaxeGambetta.add(11);SaxeGambetta.add(35); SaxeGambetta.add(36);//SaxeGambetta conecta con PlaceGuichard, Hôtel de JeanMacé Garibaldi y Guillotière Gabriel Péri
+        conexiones.put( 10, SaxeGambetta);
+
+        ArrayList<Integer> JeanMacé = new ArrayList<>();
+        JeanMacé.add(10); JeanMacé.add(12);//JeanMacé conecta con SaxeGambetta y Hôtel de PlaceJeanJaurès
+        conexiones.put( 11, JeanMacé);
+
+        ArrayList<Integer>  PlaceJeanJaurès = new ArrayList<>();
+        PlaceJeanJaurès.add(11);PlaceJeanJaurès.add(13); //PlaceJeanJaurès conecta con JeanMacé y Debourg
+        conexiones.put( 12, PlaceJeanJaurès);
+
+        ArrayList<Integer> Debourg = new ArrayList<>();
+        Debourg.add(12); Debourg.add(14);//Debourg conecta con PlaceJeanJaurès y StadedeGerland
+        conexiones.put( 13, Debourg);
+
+        ArrayList<Integer> StadedeGerland = new ArrayList<>();
+        StadedeGerland.add(13); StadedeGerland.add(15);//StadedeGerland conecta con Debourg y con GaredOullins
+        conexiones.put(14, StadedeGerland);
+
+        ArrayList<Integer> GaredOullins = new ArrayList<>();
+        GaredOullins.add(14);//SaxeGambetta conecta con StadedeGerland
+        conexiones.put( 15, GaredOullins);
         
+        //LINEA D
+        /*
+        codEstacion.put(28, "Gare de Vénissieux");
+        codEstacion.put(29, "Parilly ");
+        codEstacion.put(30, "Mermoz - Pinel ");
+        codEstacion.put(31, "Laennec");
+        codEstacion.put(32, "Grange Blanche");
+        codEstacion.put(33, "Monplaisir Lumière");
+        codEstacion.put(34, "Sans Souci ");
+        codEstacion.put(35, "Garibaldi ");
+        //Saxe Gambetta ya esta por la linea B
+        codEstacion.put(36, "Guillotière Gabriel Péri ");
+        //Bellecour ya esta por la linea A
+        codEstacion.put(37, " Vieux Lyon");
+        codEstacion.put(38, " Gorge de Loup");
+        codEstacion.put(39, "Valmy ");
+        codEstacion.put(40, "Gare de Vaise "); */
+
+        ArrayList<Integer> GaredeVénissieux = new ArrayList<>();
+        GaredeVénissieux.add(29); //GaredeVénissieux  conecta con Parilly
+        conexiones.put( 28, GaredeVénissieux);
+
+        ArrayList<Integer> Parilly = new ArrayList<>();
+        Parilly.add(28); Parilly.add(30);//Parilly conecta con GaredeVénissieux y MermozPinel
+        conexiones.put( 29, Parilly);
+
+        ArrayList<Integer> MermozPinel  = new ArrayList<>();
+        MermozPinel.add(29); MermozPinel.add(31);//MermozPinel conecta con GarePartDieuVMerle y con Laennec
+        conexiones.put(30, MermozPinel);
+
+        ArrayList<Integer> Laennec = new ArrayList<>();
+        Laennec.add(30); Laennec.add(32); //Laennec conecta con MermozPinel y GrangeBlanche.
+        conexiones.put(31, Laennec);
+
+        ArrayList<Integer> GrangeBlanche = new ArrayList<>();
+        GrangeBlanche.add(31); GrangeBlanche.add(33);//GrangeBlanche conecta con Laennec y Hôtel de MonplaisirLumière
+        conexiones.put( 32, GrangeBlanche);
+
+        ArrayList<Integer>  MonplaisirLumière = new ArrayList<>();
+        MonplaisirLumière.add(32);MonplaisirLumière.add(34); //MonplaisirLumière conecta con GrangeBlanche y SansSouci
+        conexiones.put( 33, MonplaisirLumière);
+
+        ArrayList<Integer> SansSouci = new ArrayList<>();
+        SansSouci.add(33); SansSouci.add(35);//SansSouci conecta con MonplaisirLumière y Garibaldi
+        conexiones.put( 34, SansSouci);
+
+        ArrayList<Integer> Garibaldi = new ArrayList<>();
+        Garibaldi.add(34); Garibaldi.add(10);//Garibaldi conecta con SansSouci y con Saxe Gambetta
+        conexiones.put(35, Garibaldi);
+
+        ArrayList<Integer> GuillotièreGabrielPéri = new ArrayList<>();
+        GuillotièreGabrielPéri.add(10);GuillotièreGabrielPéri.add(25);//GuillotièreGabrielPéri conecta con Saxe Gambetta y Bellecour
+        conexiones.put( 36, GaredOullins);
+
+         ArrayList<Integer>  VieuxLyon = new ArrayList<>();
+        VieuxLyon.add(25);VieuxLyon.add(38); //VieuxLyon conecta con Bellecour y GorgedeLoup
+        conexiones.put( 37, VieuxLyon);
+
+        ArrayList<Integer> GorgedeLoup = new ArrayList<>();
+        GorgedeLoup.add(37); GorgedeLoup.add(39);//GorgedeLoup conecta con VieuxLyon y Valmy
+        conexiones.put( 38, GorgedeLoup);
+
+        ArrayList<Integer> Valmy = new ArrayList<>();
+        Valmy.add(38); Valmy.add(40);//Valmy conecta con GorgedeLoup y con GaredeVaise
+        conexiones.put(39, Valmy);
+
+        ArrayList<Integer> GaredeVaise = new ArrayList<>();
+        GaredeVaise.add(39);//GaredeVaise conecta con Valmy y Bellecour
+        conexiones.put( 40, GaredeVaise);
+
         // TODO Así con todas
 
 

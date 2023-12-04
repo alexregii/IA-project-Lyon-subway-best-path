@@ -37,15 +37,20 @@ import java.util.Set;
 
 public class algoritmoAestrella{
 
-    private ArrayList tiempos = new ArrayList<>();
-    private ArrayList tiemposA = new ArrayList<>(); //Empieza en Perrache, acaba en Vaulx-en-Velin La Soie
-    private ArrayList tiemposB = new ArrayList<>();
-    private ArrayList tiemposC = new ArrayList<>();
-    private ArrayList tiemposD = new ArrayList<>();
+    //private ArrayList tiempos = new ArrayList<>();
+
+    private static ArrayList<int[]> tiemposA = new ArrayList<int[]>(); //Empieza en Perrache, acaba en Vaulx-en-Velin La Soie
+    private static ArrayList<int[]> tiemposB = new ArrayList<>();
+    private static ArrayList<int[]> tiemposC = new ArrayList<>();
+    private static ArrayList<int[]> tiemposD = new ArrayList<>();
+
     private static Map<Integer, String> codEstacion = new HashMap<Integer, String>(); 
     private static Map<Integer, ArrayList<Integer>> conexiones = new HashMap<>(); 
     //private Map estaciones= new HashMap();
-
+    private static ArrayList<Integer> estacionesLineaA;
+    private static ArrayList<Integer> estacionesLineaB;
+    private static ArrayList<Integer> estacionesLineaC;
+    private static ArrayList<Integer> estacionesLineaD;
 
 
 
@@ -71,11 +76,11 @@ public class algoritmoAestrella{
         codEstacion.put(5, "Hôtel de Ville L. Pradel");
 
         //LINEA B
-        codEstacion.put(6, "Charpennes");
+        codEstacion.put(6, "Charpennes"); //Trasbordo
         codEstacion.put(7, "Brotteaux ");
         codEstacion.put(8, "Gare Part-Dieu V. Merle");
         codEstacion.put(9, "Place Guichard");
-        codEstacion.put(10, "Saxe Gambetta");
+        codEstacion.put(10, "Saxe Gambetta"); //Trasbordo
         codEstacion.put(11, "Jean Macé");
         codEstacion.put(12, " Place Jean Jaurès");
         codEstacion.put(13, "Debourg");
@@ -94,7 +99,7 @@ public class algoritmoAestrella{
         codEstacion.put(23, "Foch ");
         //Hôtel de Ville L. Prade ya esta por linea C
         codEstacion.put(24, "Cordeliers ");
-        codEstacion.put(25, "Bellecour ");
+        codEstacion.put(25, "Bellecour "); //Trasbordo
         codEstacion.put(26, " Ampère-Victor Hugo");
         codEstacion.put(27, "Perrache ");
 
@@ -116,20 +121,24 @@ public class algoritmoAestrella{
         codEstacion.put(40, "Gare de Vaise ");
 
         
-
-       
+        estacionesLineaA = new ArrayList<Integer>(); estacionesLineaA.add(1); estacionesLineaA.add(2);
+        estacionesLineaA.add(3); estacionesLineaA.add(4); estacionesLineaA.add(5);
+        //TODO el resto
+        estacionesLineaB = new ArrayList<Integer>();
+        estacionesLineaC = new ArrayList<Integer>();
+        estacionesLineaD = new ArrayList<Integer>();
         
 
         //Hashmap conexiones
         
         //LINEA C
-        ArrayList<Integer> cuire = new ArrayList<>();
-        cuire.add(2); //Cuire solo conecta con Hénon
-        conexiones.put( 1, cuire);
+        ArrayList<Integer> Cuire = new ArrayList<>();
+        Cuire.add(2); //Cuire solo conecta con Hénon
+        conexiones.put( 1, Cuire);
 
-        ArrayList<Integer> henon = new ArrayList<>();
-        henon.add(1); henon.add(3);//Hénon conecta con Cuire y Croix-Rousse
-        conexiones.put( 2, henon);
+        ArrayList<Integer> Henon = new ArrayList<>();
+        Henon.add(1); Henon.add(3);//Hénon conecta con Cuire y Croix-Rousse
+        conexiones.put( 2, Henon);
 
         ArrayList<Integer> CroixRousse = new ArrayList<>();
         CroixRousse.add(2); CroixRousse.add(4);//Croix-Rousse conecta con henon y con Croix-paquet
@@ -288,27 +297,27 @@ public class algoritmoAestrella{
         GaredeVaise.add(39);//GaredeVaise conecta con Valmy y Bellecour
         conexiones.put( 40, GaredeVaise);
 
-        // TODO Así con todas
+        
 
 
-
-/*  
         //Tiempos A
-        tiemposA.add(new Pair (0, 0)); //Perrache
-        tiemposA.add(new Pair (1, 400)); //Ampère-Victor Hugo
-        tiemposA.add(new Pair (2, 660)); //Bellecour
-        tiemposA.add(new Pair (1, 620)); //Cordeliers
-        tiemposA.add(new Pair (2, 460)); //Hôtel de Ville L. Pradel
-        tiemposA.add(new Pair (1, 630)); //Foch
-        tiemposA.add(new Pair (2, 680)); //Masséna
-        tiemposA.add(new Pair (2, 780)); //Charpennes
-        tiemposA.add(new Pair (2, 820)); //République Villeurbanne
-        tiemposA.add(new Pair (2, 700)); //Gratte Ciel
-        tiemposA.add(new Pair (1, 600)); //Flachet
-        tiemposA.add(new Pair (2, 800)); //Cusset
-        tiemposA.add(new Pair (1, 650)); //Laurent Bonnevay
-        tiemposA.add(new Pair (2, 1100)); //Vaulx-en-Velin La Soie
- */
+        tiemposA.add(new int[] {0, 0}); //Perrache
+        tiemposA.add(new int[]  {1, 400}); //Ampère-Victor Hugo
+        tiemposA.add(new int[]  {2, 660}); //Bellecour
+        tiemposA.add(new int[]  {1, 620}); //Cordeliers
+        tiemposA.add(new int[]  {2, 460}); //Hôtel de Ville L. Pradel
+        tiemposA.add(new int[]  {1, 630}); //Foch
+        tiemposA.add(new int[]  {2, 680}); //Masséna
+        tiemposA.add(new int[]  {2, 780}); //Charpennes
+        tiemposA.add(new int[]  {2, 820}); //République Villeurbanne
+        tiemposA.add(new int[]  {2, 700}); //Gratte Ciel
+        tiemposA.add(new int[]  {1, 600}); //Flachet
+        tiemposA.add(new int[]  {2, 800}); //Cusset
+        tiemposA.add(new int[]  {1, 650}); //Laurent Bonnevay
+        tiemposA.add(new int[]  {2, 1100}); //Vaulx-en-Velin La Soie
+
+
+        //TODO con el resto
     }
 
     private int tiempoAdy(int estacion1, int estacion2, int horaActual){ 
@@ -320,14 +329,56 @@ public class algoritmoAestrella{
         return res;
     }
 
+
+    private int conversionALinea(int estacion, String linea){ 
+        //TODO da el numero de estacion en relación a la línea según la tabla
+
+        int res = 0;  
+       
+
+        return res;
+    }
+
+
     private int distEur(int orig, int dest){
 
         //distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano
         //y luego sabiendo la distancia entre las estaciones de trasbordo que es fija 
 
+        //Si están en la misma linea, es la distancia
+        if (estacionesLineaA.contains(orig) && estacionesLineaA.contains(dest)){
+            return Math.abs(tiemposA.get(conversionALinea(orig, "A") )[1] - tiemposA.get(conversionALinea(dest, "A") )[1]  );
+            
+        }
+        if (estacionesLineaB.contains(orig) && estacionesLineaB.contains(dest)){
+            return Math.abs(tiemposB.get(conversionALinea(orig, "B") )[1] - tiemposB.get(conversionALinea(dest, "B") )[1]  );
+            
+        }
+        if (estacionesLineaC.contains(orig) && estacionesLineaC.contains(dest)){
+            return Math.abs(tiemposC.get(conversionALinea(orig, "C") )[1] - tiemposC.get(conversionALinea(dest, "C") )[1]  );
+            
+        }
+        if (estacionesLineaD.contains(orig) && estacionesLineaD.contains(dest)){
+            return Math.abs(tiemposD.get(conversionALinea(orig, "D") )[1] - tiemposD.get(conversionALinea(dest, "D") )[1]  );
+            
+        }
+
+
+
+        //si están en distintas lineas es esto
+
         int orig1 = trasbordoMasCercano(orig);
+
+        int dif1 = distEur(orig, orig1);
+
         int dest1 = trasbordoMasCercano(dest);
 
+        int dif2 = distEur(dest, dest1);
+
+
+        
+
+        //Trasbordos: Belecour - Charpennes (2680 ), Saxo Gamebta - Hotel de ville (1710 )
 
 
 
@@ -336,9 +387,57 @@ public class algoritmoAestrella{
 
     private int trasbordoMasCercano(int estacion){
 
+
         //trasbordoMasCercano: dada una estación devuelve la estacion trasbordo más cercana
 
-        return 0;
+        //Si son las propias estaciones ya está
+        if (estacion == 6 || estacion == 25 || estacion == 10 || estacion == 5){
+            return estacion;
+        }
+
+        ArrayList<Integer> posiblesCaminos = conexiones.get(estacion);
+
+
+        if (posiblesCaminos.size() == 1){ //Está en un extremo
+
+            return exploraCamino(posiblesCaminos.get(0), estacion,1)[0];
+
+        }else{ //Es una de las del medio, tiene 2 conecxiones
+
+            int [] camino1 = exploraCamino(posiblesCaminos.get(0), estacion,1);
+            int [] camino2 = exploraCamino(posiblesCaminos.get(1), estacion,1);
+
+            //Devuelve el que tenga menos profundidad
+            return Math.min(camino1[2], camino2[2]) == camino1[2] ? camino1[0]: camino2[0];
+        }
+
+    }
+
+
+    private int[] exploraCamino(int estacion, int anterior, int profundidad){
+
+        int res[] = {estacion,anterior, profundidad};
+        int dummy[] = {0,0,9999}; //sirve para marcar extremos
+
+        if (estacion == 6 || estacion == 25 || estacion == 10 || estacion == 5){
+            return res;
+        }else{
+            ArrayList<Integer> posiblesCaminos = conexiones.get(estacion);
+            if (posiblesCaminos.size() == 1){ //no puedo llegar, es un extremo
+                return dummy;
+                
+            }else{
+                int siguiente = posiblesCaminos.get(0) == anterior ? posiblesCaminos.get(1): posiblesCaminos.get(0);
+                return exploraCamino(siguiente, estacion, profundidad+1);
+            }
+            
+            
+        }
+
+        
+
+        //return res; 
+
     }
 
 

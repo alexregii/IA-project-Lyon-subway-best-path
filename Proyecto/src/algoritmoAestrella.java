@@ -10,7 +10,7 @@ import java.util.Set;
  * Vamos a tener todas las estaciones asociadas a un int (podremos sacar luego su nombre de un hashmap)
  * 
  * 
- * Para los tiempos es en segundos todo. Las 0:00:00 es 0 y las 23:59:59 es 86399 (tener cuidado con viajes que empiezan tarde)
+ * Para los tiempos es en segundos todo. Las 0:00 es 0 y las 23:59 es  (tener cuidado con viajes que empiezan tarde)
  * TODO Horarios de todas las estaciones pasados a este formato 
  * TODO los costes en segundos también
  * estacionesPosibles: dada una estacion devuelve a que estaciones están adyacentes a ella
@@ -52,6 +52,14 @@ public class algoritmoAestrella{
     private static ArrayList<Integer> estacionesLineaC;
     private static ArrayList<Integer> estacionesLineaD;
 
+    private static ArrayList<ArrayList<Integer>> horariosA;
+    private static ArrayList<ArrayList<Integer>> horariosB;
+    private static ArrayList<ArrayList<Integer>>  horariosC;
+    private static ArrayList<ArrayList<Integer>>  horariosD;
+
+
+
+    private static ArrayList<Integer> horarioPerrache;
 
 
     //Trasbordos: Belecour - Charpennes (2680 ), Saxo Gamebta - Hotel de ville (1710 )
@@ -73,19 +81,19 @@ public class algoritmoAestrella{
         codEstacion.put(2, "Hénon");
         codEstacion.put(3, "Croix-Rousse");
         codEstacion.put(4, "Croix Paquet");
-        codEstacion.put(5, "Hôtel de Ville L. Pradel");
+        codEstacion.put(5, "Hôtel de Ville L. Pradel"); //Trasbordo
 
         //LINEA B
-        codEstacion.put(6, "Charpennes"); //Trasbordo
-        codEstacion.put(7, "Brotteaux ");
-        codEstacion.put(8, "Gare Part-Dieu V. Merle");
-        codEstacion.put(9, "Place Guichard");
-        codEstacion.put(10, "Saxe Gambetta"); //Trasbordo
-        codEstacion.put(11, "Jean Macé");
-        codEstacion.put(12, " Place Jean Jaurès");
-        codEstacion.put(13, "Debourg");
-        codEstacion.put(14, "Stade de Gerland ");
-        codEstacion.put(15, "Gare d’Oullins");
+        codEstacion.put(15, "Charpennes"); //Trasbordo
+        codEstacion.put(14, "Brotteaux ");
+        codEstacion.put(13, "Gare Part-Dieu V. Merle");
+        codEstacion.put(12, "Place Guichard");
+        codEstacion.put(11, "Saxe Gambetta"); //Trasbordo
+        codEstacion.put(10, "Jean Macé");
+        codEstacion.put(9, " Place Jean Jaurès");
+        codEstacion.put(8, "Debourg");
+        codEstacion.put(7, "Stade de Gerland ");
+        codEstacion.put(6, "Gare d’Oullins");
 
          //LINEA A
         codEstacion.put(16, "Vaulx-en-Velin La Soie");
@@ -121,12 +129,21 @@ public class algoritmoAestrella{
         codEstacion.put(40, "Gare de Vaise ");
 
         
-        estacionesLineaA = new ArrayList<Integer>(); estacionesLineaA.add(1); estacionesLineaA.add(2);
-        estacionesLineaA.add(3); estacionesLineaA.add(4); estacionesLineaA.add(5);
+        estacionesLineaC = new ArrayList<Integer>(); estacionesLineaC.add(1); estacionesLineaC.add(2);
+        estacionesLineaC.add(3); estacionesLineaC.add(4); estacionesLineaC.add(5);
         //TODO el resto
-        estacionesLineaB = new ArrayList<Integer>();
-        estacionesLineaC = new ArrayList<Integer>();
-        estacionesLineaD = new ArrayList<Integer>();
+        estacionesLineaB = new ArrayList<Integer>(); estacionesLineaB.add(6); estacionesLineaB.add(7);
+        estacionesLineaB.add(8); estacionesLineaB.add(9);estacionesLineaB.add(10); estacionesLineaB.add(11);
+        estacionesLineaB.add(12); estacionesLineaB.add(13);estacionesLineaB.add(14); estacionesLineaB.add(15);
+        estacionesLineaA = new ArrayList<Integer>(); estacionesLineaA.add(16); estacionesLineaA.add(17);
+        estacionesLineaA.add(18);estacionesLineaA.add(19);estacionesLineaA.add(20);estacionesLineaA.add(21);
+        estacionesLineaA.add(6);estacionesLineaA.add(22);estacionesLineaA.add(23);estacionesLineaA.add(5);
+        estacionesLineaA.add(24);estacionesLineaA.add(25);estacionesLineaA.add(26);estacionesLineaA.add(27);
+        estacionesLineaD = new ArrayList<Integer>(); estacionesLineaD.add(28);estacionesLineaD.add(29);
+        estacionesLineaD.add(30);estacionesLineaD.add(31);estacionesLineaD.add(32);estacionesLineaD.add(33);
+        estacionesLineaD.add(34);estacionesLineaD.add(35);estacionesLineaD.add(10);estacionesLineaD.add(36);
+        estacionesLineaD.add(25);estacionesLineaD.add(37);estacionesLineaD.add(38);estacionesLineaD.add(39);
+        estacionesLineaD.add(40);
         
 
         //Hashmap conexiones
@@ -323,20 +340,65 @@ public class algoritmoAestrella{
     private int tiempoAdy(int estacion1, int estacion2, int horaActual){ 
         //Da el tiempo que se tarda de ir a una estacion a otra siendo estas adyacentes.
         //Tiene en cuenta tiempo de trasbordo
-        int res = 0;  
-       
+        ArrayList<Integer> horarioOrig;
+        int retraso = 0;
+        int res = 0; 
+
+        if (estacionesLineaA.contains(estacion1) && estacionesLineaA.contains(estacion2)){
+
+
+
+            int convLinea = conversionALinea(orig, "A")
+            horarioOrig = horariosA.get(convLinea);
+            
+            while(){
+                if(horarioOrig.contains(horaActual+retraso)){
+                
+                    return retraso + tiemposA.get(convLinea)[0];
+                
+                 }else retraso++;
+            }
+            
+
+        }
+        if (estacionesLineaB.contains(orig) && estacionesLineaB.contains(dest)){
+            
+            
+        }
+        if (estacionesLineaC.contains(orig) && estacionesLineaC.contains(dest)){
+            
+            
+        }
+        if (estacionesLineaD.contains(orig) && estacionesLineaD.contains(dest)){
+           
+            
+        }
+
+
+
+
 
         return res;
     }
 
 
     private int conversionALinea(int estacion, String linea){ 
-        //TODO da el numero de estacion en relación a la línea según la tabla
 
-        int res = 0;  
+        if(linea.equals("A")){
+            return estacionesLineaA.indexOf(estacion);
+        }
+        if(linea.equals("B")){
+            return estacionesLineaB.indexOf(estacion);
+        }
+        if(linea.equals("C")){
+            return estacionesLineaC.indexOf(estacion);
+        }
+        if(linea.equals("D")){
+            return estacionesLineaD.indexOf(estacion);
+        }
        
-
-        return res;
+        //No se debería ejecutar
+        return 0;
     }
 
 
@@ -375,13 +437,47 @@ public class algoritmoAestrella{
 
         int dif2 = distEur(dest, dest1);
 
-
+        // 5  Hotel de ville
+        //6 Charpennes
+        //10 saxo gambetta
+        //25 Bellecour
+        
         
 
-        //Trasbordos: Belecour - Charpennes (2680 ), Saxo Gamebta - Hotel de ville (1710 )
 
+        /*Belecour - Charpennes (2680 ), 
+        Saxo Gamebta - Hotel de ville (1710 )
+        Saxo Gamebta - Charpennes (2230 )
+        Belecour -  Hotel de ville 1100
+        Belecour  - Saxo Gamebta 1100
+        Hotel de ville  - Charpennes 2000 */
 
+        if(orig1 == 5 && dest1 == 6|| orig1 == 6 && dest1 == 5 ){
+            return 2000+dif1+dif2;
 
+        }
+        if(orig1 == 5 && dest1 == 10|| orig1 == 10 && dest1 == 5 ){
+            return 1710+dif1+dif2;
+
+        }
+        if(orig1 == 5 && dest1 == 25|| orig1 == 25 && dest1 == 5 ){
+            return 1100+dif1+dif2;
+
+        }
+        if(orig1 == 6 && dest1 == 10|| orig1 == 10 && dest1 == 6 ){
+            return 2230+dif1+dif2;
+
+        }
+        if(orig1 == 6 && dest1 == 25|| orig1 == 25 && dest1 == 6 ){
+            return 2680+dif1+dif2;
+
+        }
+        if(orig1 == 10 && dest1 == 25|| orig1 == 25 && dest1 == 10 ){
+            return 1100+dif1+dif2;
+
+        }
+
+        //No debería ejecutarse
         return 0;
     }
 

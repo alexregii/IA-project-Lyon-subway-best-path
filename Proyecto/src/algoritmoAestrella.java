@@ -85,7 +85,7 @@ public class algoritmoAestrella{
         codEstacion.put(12, " Place Jean Jaurès");
         codEstacion.put(13, "Debourg");
         codEstacion.put(14, "Stade de Gerland ");
-        codEstacion.put(15, "Gare d’Oullins");
+        codEstacion.put(15, "Gare dOullins");
 
          //LINEA A
         codEstacion.put(16, "Vaulx-en-Velin La Soie");
@@ -316,8 +316,42 @@ public class algoritmoAestrella{
         tiemposA.add(new int[]  {1, 650}); //Laurent Bonnevay
         tiemposA.add(new int[]  {2, 1100}); //Vaulx-en-Velin La Soie
 
+        //Tiempos B
+        tiemposB.add(new int[] {0, 0}); //Gare d’Oullins
+        tiemposB.add(new int[]  {2, 1700}); //Stade de Gerland
+        tiemposB.add(new int[]  {2, 540}); //Debourg
+        tiemposB.add(new int[]  {1, 780}); //Place Jean Jaurès
+        tiemposB.add(new int[]  {2, 950}); //Jean Macé
+        tiemposB.add(new int[]  {2, 960}); //Saxe Gambetta
+        tiemposB.add(new int[]  {1, 610}); //Place Guichard
+        tiemposB.add(new int[]  {2, 820}); //Gare Part-Dieu V. Merle
+        tiemposB.add(new int[]  {2, 600}); //Brotteaux
+        tiemposB.add(new int[]  {2, 500}); //Charpennes
 
-        //TODO con el resto
+        //Tiempos C
+        tiemposC.add(new int[] {0, 0}); //Hôtel de Ville L. Pradel
+        tiemposC.add(new int[]  {2, 400}); //Croix Paquet
+        tiemposC.add(new int[]  {2, 500}); //Croix-Rousse
+        tiemposC.add(new int[]  {2, 650}); //Hénon
+        tiemposC.add(new int[]  {2, 890}); //Cuire
+
+        //Tiempos D
+        tiemposD.add(new int[] {0, 0}); //Gare de Vaise
+        tiemposD.add(new int[] {2, 670}); //Valmy
+        tiemposD.add(new int[] {2, 970}); //Gorge de Loup
+        tiemposD.add(new int[] {2, 1740}); //Vieux Lyon
+        tiemposD.add(new int[] {2, 662}); //Bellecour
+        tiemposD.add(new int[] {2, 700}); //Guillotière Gabriel Péri
+        tiemposD.add(new int[] {1, 400}); //Saxe-Gambetta
+        tiemposD.add(new int[] {1, 600}); //Garibaldi
+        tiemposD.add(new int[] {2, 900}); //Sans Souci
+        tiemposD.add(new int[] {2, 600}); //Monplaisir Lumière
+        tiemposD.add(new int[] {2, 670}); //Grange Blanche
+        tiemposD.add(new int[] {2, 800}); //Laennec
+        tiemposD.add(new int[] {2, 830}); //Mermoz - Pinel
+        tiemposD.add(new int[] {2, 1250}); //Parilly
+        tiemposD.add(new int[] {2, 1590}); //Gare de Vénissieux
+       
     }
 
     private int tiempoAdy(int estacion1, int estacion2, int horaActual){ 

@@ -52,7 +52,12 @@ public class algoritmoAestrella{
     private static ArrayList<Integer> estacionesLineaC;
     private static ArrayList<Integer> estacionesLineaD;
 
+    private static ArrayList<Integer> horarioPerrache;
+    private static ArrayList<Integer> horarioHoteldeVilleLPradel;
+    private static ArrayList<Integer> horarioGaredeVaise;
+    private static ArrayList<Integer> horaioGaredOullins;
 
+    
 
     //Trasbordos: Belecour - Charpennes (2680 ), Saxo Gamebta - Hotel de ville (1710 )
 
@@ -303,55 +308,116 @@ public class algoritmoAestrella{
         //Tiempos A
         tiemposA.add(new int[] {0, 0}); //Perrache
         tiemposA.add(new int[]  {1, 400}); //Ampère-Victor Hugo
-        tiemposA.add(new int[]  {2, 660}); //Bellecour
-        tiemposA.add(new int[]  {1, 620}); //Cordeliers
-        tiemposA.add(new int[]  {2, 460}); //Hôtel de Ville L. Pradel
-        tiemposA.add(new int[]  {1, 630}); //Foch
-        tiemposA.add(new int[]  {2, 680}); //Masséna
-        tiemposA.add(new int[]  {2, 780}); //Charpennes
-        tiemposA.add(new int[]  {2, 820}); //République Villeurbanne
-        tiemposA.add(new int[]  {2, 700}); //Gratte Ciel
-        tiemposA.add(new int[]  {1, 600}); //Flachet
-        tiemposA.add(new int[]  {2, 800}); //Cusset
-        tiemposA.add(new int[]  {1, 650}); //Laurent Bonnevay
-        tiemposA.add(new int[]  {2, 1100}); //Vaulx-en-Velin La Soie
+        tiemposA.add(new int[]  {2, 1060 }); //Bellecour
+        tiemposA.add(new int[]  {1, 1680 }); //Cordeliers
+        tiemposA.add(new int[]  {2, 2140 }); //Hôtel de Ville L. Pradel
+        tiemposA.add(new int[]  {1, 2770 }); //Foch
+        tiemposA.add(new int[]  {2, 3450 }); //Masséna
+        tiemposA.add(new int[]  {2, 4230 }); //Charpennes
+        tiemposA.add(new int[]  {2, 5050 }); //République Villeurbanne
+        tiemposA.add(new int[]  {2, 5750 }); //Gratte Ciel
+        tiemposA.add(new int[]  {1, 6350 }); //Flachet
+        tiemposA.add(new int[]  {2, 7150 }); //Cusset
+        tiemposA.add(new int[]  {1, 7800 }); //Laurent Bonnevay
+        tiemposA.add(new int[]  {2, 8900}); //Vaulx-en-Velin La Soie
 
         //Tiempos B
         tiemposB.add(new int[] {0, 0}); //Gare d’Oullins
         tiemposB.add(new int[]  {2, 1700}); //Stade de Gerland
-        tiemposB.add(new int[]  {2, 540}); //Debourg
-        tiemposB.add(new int[]  {1, 780}); //Place Jean Jaurès
-        tiemposB.add(new int[]  {2, 950}); //Jean Macé
-        tiemposB.add(new int[]  {2, 960}); //Saxe Gambetta
-        tiemposB.add(new int[]  {1, 610}); //Place Guichard
-        tiemposB.add(new int[]  {2, 820}); //Gare Part-Dieu V. Merle
-        tiemposB.add(new int[]  {2, 600}); //Brotteaux
-        tiemposB.add(new int[]  {2, 500}); //Charpennes
+        tiemposB.add(new int[]  {2, 2240 }); //Debourg
+        tiemposB.add(new int[]  {1, 3020 }); //Place Jean Jaurès
+        tiemposB.add(new int[]  {2, 3970 }); //Jean Macé
+        tiemposB.add(new int[]  {2, 4930 }); //Saxe Gambetta
+        tiemposB.add(new int[]  {1, 5540 }); //Place Guichard
+        tiemposB.add(new int[]  {2, 6360 }); //Gare Part-Dieu V. Merle
+        tiemposB.add(new int[]  {2, 6960 }); //Brotteaux
+        tiemposB.add(new int[]  {2, 7460 }); //Charpennes
 
         //Tiempos C
         tiemposC.add(new int[] {0, 0}); //Hôtel de Ville L. Pradel
         tiemposC.add(new int[]  {2, 400}); //Croix Paquet
-        tiemposC.add(new int[]  {2, 500}); //Croix-Rousse
-        tiemposC.add(new int[]  {2, 650}); //Hénon
-        tiemposC.add(new int[]  {2, 890}); //Cuire
+        tiemposC.add(new int[]  {2, 900}); //Croix-Rousse
+        tiemposC.add(new int[]  {2, 1550}); //Hénon
+        tiemposC.add(new int[]  {2, 2440}); //Cuire
 
         //Tiempos D
         tiemposD.add(new int[] {0, 0}); //Gare de Vaise
         tiemposD.add(new int[] {2, 670}); //Valmy
-        tiemposD.add(new int[] {2, 970}); //Gorge de Loup
-        tiemposD.add(new int[] {2, 1740}); //Vieux Lyon
-        tiemposD.add(new int[] {2, 662}); //Bellecour
-        tiemposD.add(new int[] {2, 700}); //Guillotière Gabriel Péri
-        tiemposD.add(new int[] {1, 400}); //Saxe-Gambetta
-        tiemposD.add(new int[] {1, 600}); //Garibaldi
-        tiemposD.add(new int[] {2, 900}); //Sans Souci
-        tiemposD.add(new int[] {2, 600}); //Monplaisir Lumière
-        tiemposD.add(new int[] {2, 670}); //Grange Blanche
-        tiemposD.add(new int[] {2, 800}); //Laennec
-        tiemposD.add(new int[] {2, 830}); //Mermoz - Pinel
-        tiemposD.add(new int[] {2, 1250}); //Parilly
-        tiemposD.add(new int[] {2, 1590}); //Gare de Vénissieux
+        tiemposD.add(new int[] {2, 1640}); //Gorge de Loup
+        tiemposD.add(new int[] {2, 3380}); //Vieux Lyon
+        tiemposD.add(new int[] {2, 4042}); //Bellecour
+        tiemposD.add(new int[] {2, 4742}); //Guillotière Gabriel Péri
+        tiemposD.add(new int[] {1, 5142}); //Saxe-Gambetta
+        tiemposD.add(new int[] {1, 5742}); //Garibaldi
+        tiemposD.add(new int[] {2, 6642}); //Sans Souci
+        tiemposD.add(new int[] {2, 7242}); //Monplaisir Lumière
+        tiemposD.add(new int[] {2, 8412}); //Grange Blanche
+        tiemposD.add(new int[] {2, 10042}); //Laennec
+        tiemposD.add(new int[] {2, 10872}); //Mermoz - Pinel
+        tiemposD.add(new int[] {2, 12122}); //Parilly
+        tiemposD.add(new int[] {2, 13712}); //Gare de Vénissieux
        
+
+        //Horario perrache
+        horarioPerrache.add(8);
+        horarioPerrache.add(20);
+        horarioPerrache.add(5*60+1);
+        horarioPerrache.add(5*60+13);
+        horarioPerrache.add(5*60+23);
+        horarioPerrache.add(5*60+33);
+        horarioPerrache.add(5*60+42);
+        horarioPerrache.add(5*60+51);
+        horarioPerrache.add(5*60+57);
+        horarioPerrache.add(6*60+2);
+        horarioPerrache.add(6*60+8);
+        horarioPerrache.add(6*60+13);
+        horarioPerrache.add(6*60+19);
+        horarioPerrache.add(6*60+24);
+        horarioPerrache.add(6*60+30);
+        horarioPerrache.add(6*60+35);
+        horarioPerrache.add(6*60+40);
+        horarioPerrache.add(6*60+45);
+        horarioPerrache.add(6*60+48);
+        horarioPerrache.add(6*60+50);
+        horarioPerrache.add(6*60+53);
+        horarioPerrache.add(6*60+56);
+        horarioPerrache.add(6*60+59);
+        horarioPerrache.add(7*60+2);
+        horarioPerrache.add(7*60+5);
+        horarioPerrache.add(7*60+8);
+        horarioPerrache.add(7*60+11);
+        horarioPerrache.add(7*60+14);
+        horarioPerrache.add(7*60+17);
+        horarioPerrache.add(7*60+20);
+        horarioPerrache.add(7*60+23);
+        horarioPerrache.add(7*60+26);
+        horarioPerrache.add(7*60+29);
+        horarioPerrache.add(7*60+32);
+        horarioPerrache.add(7*60+34);
+        horarioPerrache.add(7*60+37);
+        horarioPerrache.add(7*60+40);
+        horarioPerrache.add(7*60+43);
+        horarioPerrache.add(7*60+46);
+        horarioPerrache.add(7*60+49);
+        horarioPerrache.add(7*60+52);
+        horarioPerrache.add(7*60+56);
+        horarioPerrache.add(7*60+59);
+        horarioPerrache.add(8*60+2);
+        horarioPerrache.add(8*60+4);
+        horarioPerrache.add(8*60+7);
+        horarioPerrache.add(8*60+10);
+        horarioPerrache.add(8*60+13);
+        horarioPerrache.add(8*60+16);
+        horarioPerrache.add(8*60+19);
+        horarioPerrache.add(8*60+22);
+        horarioPerrache.add(8*60+27);
+        horarioPerrache.add(8*60+33);
+        horarioPerrache.add(8*60+38);
+        horarioPerrache.add(8*60+43);
+        horarioPerrache.add(8*60+49);
+        horarioPerrache.add(8*60+54);
+        horarioPerrache.add(8*60+59);
+        
     }
 
     private int tiempoAdy(int estacion1, int estacion2, int horaActual){ 

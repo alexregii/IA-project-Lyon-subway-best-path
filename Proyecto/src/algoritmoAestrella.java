@@ -682,11 +682,13 @@ public class algoritmoAestrella{
             horarioGaredOullins.add(Integer.parseInt(horario[i]));
             }
             line=br.readLine();
+
             horario=line.split(";");
             for(int i = 0; i<horario.length;i++){
             horarioHoteldeVilleLPradel.add(Integer.parseInt(horario[i]));
             }
             line=br.readLine();
+            
             horario=line.split(";");
             for(int i = 0; i<horario.length;i++){
             horarioGaredeVaise.add(Integer.parseInt(horario[i]));
@@ -699,13 +701,35 @@ public class algoritmoAestrella{
 
     public static void main(String[] args) {
         inicializa();
+        System.out.println(" ----------------------------- \nLINEA A \n-----------------------------");
+        for (int i = 0; i < horarioPerrache.size(); i++) {
+            if (i == horarioPerrache.size()-1)
+                System.out.printf("%02d:%02d\n", horarioPerrache.get(i)/60, horarioPerrache.get(i)%60);
+            else
+            System.out.printf("%02d:%02d, ", horarioPerrache.get(i)/60, horarioPerrache.get(i)%60);
+        }
+        System.out.println(" -----------------------------\nLINEA B \n-----------------------------");
+        for (int i = 0; i < horarioGaredOullins.size(); i++) {
+            if (i == horarioGaredOullins.size()-1)
+                System.out.printf("%02d:%02d\n", horarioGaredOullins.get(i)/60, horarioGaredOullins.get(i)%60);
+            else
+            System.out.printf("%02d:%02d, ", horarioGaredOullins.get(i)/60, horarioGaredOullins.get(i)%60);
+        }
+        System.out.println("-----------------------------\nLINEA C \n-----------------------------");
+        for (int i = 0; i < horarioHoteldeVilleLPradel.size(); i++) {
+            if (i == horarioHoteldeVilleLPradel.size()-1)
+                System.out.printf("%02d:%02d\n", horarioHoteldeVilleLPradel.get(i)/60,horarioHoteldeVilleLPradel.get(i)%60);
+            else
+            System.out.printf("%02d:%02d, ", horarioHoteldeVilleLPradel.get(i)/60, horarioHoteldeVilleLPradel.get(i)%60);
+        }
+        System.out.println("-----------------------------\nLINEA D \n-----------------------------");
+        for (int i = 0; i < horarioGaredeVaise.size(); i++) {
+            if (i == horarioGaredeVaise.size()-1)
+                System.out.printf("%02d:%02d\n", horarioGaredeVaise.get(i)/60, horarioGaredeVaise.get(i)%60);
+            else
+                System.out.printf("%02d:%02d, ", horarioGaredeVaise.get(i)/60, horarioGaredeVaise.get(i)%60);
+        }
 
-        System.out.println(horarioPerrache.toString());
-        System.out.println(horarioGaredOullins.toString());
-        System.out.println(horarioHoteldeVilleLPradel.toString());
-        System.out.println(horarioGaredeVaise.toString());
+
     }
-
-
-
 }

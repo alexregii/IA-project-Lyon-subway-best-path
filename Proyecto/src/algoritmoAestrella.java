@@ -44,9 +44,9 @@ public class algoritmoAestrella{
     //private ArrayList tiempos = new ArrayList<>();
 
     private static ArrayList<int[]> tiemposA = new ArrayList<int[]>(); //Empieza en Perrache, acaba en Vaulx-en-Velin La Soie
-    private static ArrayList<int[]> tiemposB = new ArrayList<>();
-    private static ArrayList<int[]> tiemposC = new ArrayList<>();
-    private static ArrayList<int[]> tiemposD = new ArrayList<>();
+    private static ArrayList<int[]> tiemposB = new ArrayList<int[]>();
+    private static ArrayList<int[]> tiemposC = new ArrayList<int[]>();
+    private static ArrayList<int[]> tiemposD = new ArrayList<int[]>();
 
     private static Map<Integer, String> codEstacion = new HashMap<Integer, String>(); 
     private static Map<Integer, ArrayList<Integer>> conexiones = new HashMap<>(); 
@@ -56,40 +56,101 @@ public class algoritmoAestrella{
     private static ArrayList<Integer> estacionesLineaC;
     private static ArrayList<Integer> estacionesLineaD;
 
-    private static  ArrayList<Integer> horarioPerrache = new ArrayList();
-    private static  ArrayList<Integer> horarioHoteldeVilleLPradel = new ArrayList();
-    private static  ArrayList<Integer> horarioGaredeVaise = new ArrayList();
-    private static  ArrayList<Integer> horarioGaredOullins = new ArrayList();
+    private static  ArrayList<Integer> horarioPerrache = new ArrayList<Integer>();
+    private static  ArrayList<Integer> horarioHoteldeVilleLPradel = new ArrayList<Integer>();
+    private static  ArrayList<Integer> horarioGaredeVaise = new ArrayList<Integer>();
+    private static  ArrayList<Integer> horarioGaredOullins = new ArrayList<Integer>();
 
 
-    //Trasbordos: Belecour - Charpennes (2680 ), Saxo Gamebta - Hotel de ville (1710 )
+    private static ArrayList<ArrayList<Integer>> horariosLineaA;
+    private static ArrayList<ArrayList<Integer>> horariosLineaB;
+    private static ArrayList<ArrayList<Integer>> horariosLineaC;
+    private static ArrayList<ArrayList<Integer>> horariosLineaD;
 
 
     private int tiempoAdy(int estacion1, int estacion2, int horaActual){ 
         //Da el tiempo que se tarda de ir a una estacion a otra siendo estas adyacentes.
-        //Tiene en cuenta tiempo de trasbordo
-        ArrayList<Integer> horarioOrig;
+        //Partes de la estacion1
+        //Tiene en cuenta los horarios
+
         int retraso = 0;
-        int res = 0; 
-/* 
+
         if (estacionesLineaA.contains(estacion1) && estacionesLineaA.contains(estacion2)){
 
+            int convLinea1 = conversionALinea(estacion1, "A");
+            int convLinea2 = conversionALinea(estacion2, "A");
 
-
-            int convLinea = conversionALinea(orig, "A");
-            horarioOrig = horariosPerrache.get(convLinea);
+            //int orig = Math.min(convLinea1, convLinea2);
+            int estacionEfectiva = Math.max(convLinea1, convLinea2);
+          
             
-            while(){
-                if(horarioOrig.contains(horaActual+retraso)){
+            while(retraso < 100000){ //debería pararse antes
+                if(horariosLineaA.get(convLinea1).contains(horaActual+retraso)){
                 
-                    return retraso + tiemposA.get(convLinea)[0];
+                    return tiemposA.get(estacionEfectiva)[0]+retraso;
                 
                  }else retraso++;
             }
+
+        }
+
+        if (estacionesLineaB.contains(estacion1) && estacionesLineaB.contains(estacion2)){
+
+            int convLinea1 = conversionALinea(estacion1, "B");
+            int convLinea2 = conversionALinea(estacion2, "B");
+
+            int estacionEfectiva = Math.max(convLinea1, convLinea2);
+          
             
-        
-        }*/
-         return res;
+            while(retraso < 100000){ //debería pararse antes
+                if(horariosLineaB.get(convLinea1).contains(horaActual+retraso)){
+                
+                    return tiemposB.get(estacionEfectiva)[0]+retraso;
+                
+                 }else retraso++;
+            }
+
+        }
+
+        if (estacionesLineaC.contains(estacion1) && estacionesLineaC.contains(estacion2)){
+
+            int convLinea1 = conversionALinea(estacion1, "C");
+            int convLinea2 = conversionALinea(estacion2, "C");
+
+            int estacionEfectiva = Math.max(convLinea1, convLinea2);
+          
+            
+            while(retraso < 100000){ //debería pararse antes
+                if(horariosLineaC.get(convLinea1).contains(horaActual+retraso)){
+                
+                    return tiemposC.get(estacionEfectiva)[0]+retraso;
+                
+                 }else retraso++;
+            }
+
+        }
+
+        if (estacionesLineaD.contains(estacion1) && estacionesLineaD.contains(estacion2)){
+
+            int convLinea1 = conversionALinea(estacion1, "D");
+            int convLinea2 = conversionALinea(estacion2, "D");
+
+            int estacionEfectiva = Math.max(convLinea1, convLinea2);
+          
+            
+            while(retraso < 100000){ //debería pararse antes
+                if(horariosLineaD.get(convLinea1).contains(horaActual+retraso)){
+                
+                    return tiemposD.get(estacionEfectiva)[0]+retraso;
+                
+                 }else retraso++;
+            }
+
+        }
+
+
+        //No se debería ejecutar
+         return 0;
     }
 
 
@@ -152,9 +213,6 @@ public class algoritmoAestrella{
         //6 Charpennes
         //10 saxo gambetta
         //25 Bellecour
-        
-        
-
 
         /*Belecour - Charpennes (2680 ), 
         Saxo Gamebta - Hotel de ville (1710 )
@@ -366,6 +424,27 @@ public class algoritmoAestrella{
         }
     }
 
+    private static ArrayList<Integer> sumaHorario(ArrayList<Integer> horario, int suma){
+
+        //Dado un horario te da el horario desfasado un tiempo llamado suma
+
+        ArrayList<Integer> res = new ArrayList<Integer>();
+
+        Iterator<Integer> it = horario.iterator();
+
+        while (it.hasNext()) {
+
+            int siguiente = it.next();
+            res.add(siguiente+suma % 1440); //para evitar problemas con horas que 
+            //superan las 23:59 (1439 en minutos)
+        }
+
+        return res;
+    }   
+
+
+
+
     public static void inicializa(){
 
         //Hashmap estaciones
@@ -381,12 +460,13 @@ public class algoritmoAestrella{
         codEstacion.put(7, "Brotteaux ");
         codEstacion.put(8, "Gare Part-Dieu V. Merle");
         codEstacion.put(9, "Place Guichard");
-        codEstacion.put(10, "Saxe Gambetta"); //Trasbordo
+        codEstacion.put(10, "Saxe Gambetta");//Trasbordo
         codEstacion.put(11, "Jean Macé");
         codEstacion.put(12, " Place Jean Jaurès");
         codEstacion.put(13, "Debourg");
         codEstacion.put(14, "Stade de Gerland ");
         codEstacion.put(15, "Gare d’Oullins");
+        
 
          //LINEA A
         codEstacion.put(16, "Vaulx-en-Velin La Soie");
@@ -422,22 +502,29 @@ public class algoritmoAestrella{
         codEstacion.put(40, "Gare de Vaise ");
 
         
-        estacionesLineaC = new ArrayList<Integer>(); estacionesLineaC.add(1); estacionesLineaC.add(2);
-        estacionesLineaC.add(3); estacionesLineaC.add(4); estacionesLineaC.add(5);
-        //TODO el resto
-        estacionesLineaB = new ArrayList<Integer>(); estacionesLineaB.add(6); estacionesLineaB.add(7);
-        estacionesLineaB.add(8); estacionesLineaB.add(9);estacionesLineaB.add(10); estacionesLineaB.add(11);
-        estacionesLineaB.add(12); estacionesLineaB.add(13);estacionesLineaB.add(14); estacionesLineaB.add(15);
-        estacionesLineaA = new ArrayList<Integer>(); estacionesLineaA.add(16); estacionesLineaA.add(17);
-        estacionesLineaA.add(18);estacionesLineaA.add(19);estacionesLineaA.add(20);estacionesLineaA.add(21);
-        estacionesLineaA.add(6);estacionesLineaA.add(22);estacionesLineaA.add(23);estacionesLineaA.add(5);
-        estacionesLineaA.add(24);estacionesLineaA.add(25);estacionesLineaA.add(26);estacionesLineaA.add(27);
-        estacionesLineaD = new ArrayList<Integer>(); estacionesLineaD.add(28);estacionesLineaD.add(29);
-        estacionesLineaD.add(30);estacionesLineaD.add(31);estacionesLineaD.add(32);estacionesLineaD.add(33);
-        estacionesLineaD.add(34);estacionesLineaD.add(35);estacionesLineaD.add(10);estacionesLineaD.add(36);
-        estacionesLineaD.add(25);estacionesLineaD.add(37);estacionesLineaD.add(38);estacionesLineaD.add(39);
-        estacionesLineaD.add(40);
+        estacionesLineaC = new ArrayList<Integer>(); estacionesLineaC.add(5); estacionesLineaC.add(4);
+        estacionesLineaC.add(3); estacionesLineaC.add(2); estacionesLineaC.add(1);
+
+        estacionesLineaB = new ArrayList<Integer>(); estacionesLineaB.add(15); estacionesLineaB.add(14); 
+        estacionesLineaB.add(13); estacionesLineaB.add(12);  estacionesLineaB.add(11); 
+        estacionesLineaB.add(10);  estacionesLineaB.add(9); estacionesLineaB.add(8);  
+        estacionesLineaB.add(7); estacionesLineaB.add(6); 
         
+        
+
+        estacionesLineaA = new ArrayList<Integer>(); estacionesLineaA.add(27);estacionesLineaA.add(26);estacionesLineaA.add(25);
+        estacionesLineaA.add(24);estacionesLineaA.add(5);estacionesLineaA.add(23);estacionesLineaA.add(22);
+        estacionesLineaA.add(6);estacionesLineaA.add(21);estacionesLineaA.add(20);estacionesLineaA.add(19);
+        estacionesLineaA.add(18);estacionesLineaA.add(17);estacionesLineaA.add(16); 
+
+
+        estacionesLineaD = new ArrayList<Integer>(); estacionesLineaD.add(40);estacionesLineaD.add(39);estacionesLineaD.add(38);
+        estacionesLineaD.add(37);estacionesLineaD.add(25);estacionesLineaD.add(36);estacionesLineaD.add(10);
+        estacionesLineaD.add(35); estacionesLineaD.add(34);estacionesLineaD.add(33);
+        estacionesLineaD.add(32);estacionesLineaD.add(31);estacionesLineaD.add(30);
+        estacionesLineaD.add(29); estacionesLineaD.add(28);
+        
+
 
         //Hashmap conexiones
         
@@ -491,9 +578,9 @@ public class algoritmoAestrella{
         Charpennes.add(21); Charpennes.add(22);Charpennes.add(7);//Charpennes conecta con RepubliqueVilleurbanne, Masséna y con Brotteaux
         conexiones.put( 6, Charpennes);
 
-        ArrayList<Integer> Masséna = new ArrayList<>();
-        Masséna.add(6); Masséna.add(23);//Masséna conecta con LaurentBonnevay y con Foch
-        conexiones.put(22, Masséna);
+        ArrayList<Integer> Massena = new ArrayList<>();
+        Massena.add(6); Massena.add(23);//Masséna conecta con LaurentBonnevay y con Foch
+        conexiones.put(22, Massena);
 
         ArrayList<Integer> Foch = new ArrayList<>();
         Foch.add(22); Foch.add(5);//Foch conecta con Masséna y HoteldeVilleLPradel
@@ -507,9 +594,9 @@ public class algoritmoAestrella{
         Bellecour.add(24); Bellecour.add(26); //Bellecour conecta con Cordeliers y AmpèreVictorHugo
         conexiones.put( 25, Bellecour);
 
-        ArrayList<Integer> AmpèreVictorHugo = new ArrayList<>();
-        AmpèreVictorHugo.add(25); AmpèreVictorHugo.add(27); //AmpèreVictorHugo conecta con Bellecour y Perrache
-        conexiones.put( 26, AmpèreVictorHugo);
+        ArrayList<Integer> AmpereVictorHugo = new ArrayList<>();
+        AmpereVictorHugo.add(25); AmpereVictorHugo.add(27); //AmpèreVictorHugo conecta con Bellecour y Perrache
+        conexiones.put( 26, AmpereVictorHugo);
 
         ArrayList<Integer> Perrache = new ArrayList<>();
         Perrache.add(26);//GratteCiel conecta con AmpèreVictorHugo 
@@ -533,13 +620,13 @@ public class algoritmoAestrella{
         SaxeGambetta.add(9); SaxeGambetta.add(11);SaxeGambetta.add(35); SaxeGambetta.add(36);//SaxeGambetta conecta con PlaceGuichard, Hôtel de JeanMacé Garibaldi y Guillotière Gabriel Péri
         conexiones.put( 10, SaxeGambetta);
 
-        ArrayList<Integer> JeanMacé = new ArrayList<>();
-        JeanMacé.add(10); JeanMacé.add(12);//JeanMacé conecta con SaxeGambetta y Hôtel de PlaceJeanJaurès
-        conexiones.put( 11, JeanMacé);
+        ArrayList<Integer> JeanMace = new ArrayList<>();
+        JeanMace.add(10); JeanMace.add(12);//JeanMacé conecta con SaxeGambetta y Hôtel de PlaceJeanJaurès
+        conexiones.put( 11, JeanMace);
 
-        ArrayList<Integer>  PlaceJeanJaurès = new ArrayList<>();
-        PlaceJeanJaurès.add(11);PlaceJeanJaurès.add(13); //PlaceJeanJaurès conecta con JeanMacé y Debourg
-        conexiones.put( 12, PlaceJeanJaurès);
+        ArrayList<Integer>  PlaceJeanJaures = new ArrayList<>();
+        PlaceJeanJaures.add(11);PlaceJeanJaures.add(13); //PlaceJeanJaurès conecta con JeanMacé y Debourg
+        conexiones.put( 12, PlaceJeanJaures);
 
         ArrayList<Integer> Debourg = new ArrayList<>();
         Debourg.add(12); Debourg.add(14);//Debourg conecta con PlaceJeanJaurès y StadedeGerland
@@ -555,9 +642,9 @@ public class algoritmoAestrella{
         
         //LINEA D
         
-        ArrayList<Integer> GaredeVénissieux = new ArrayList<>();
-        GaredeVénissieux.add(29); //GaredeVénissieux  conecta con Parilly
-        conexiones.put( 28, GaredeVénissieux);
+        ArrayList<Integer> GaredeVenissieux = new ArrayList<>();
+        GaredeVenissieux.add(29); //GaredeVénissieux  conecta con Parilly
+        conexiones.put( 28, GaredeVenissieux);
 
         ArrayList<Integer> Parilly = new ArrayList<>();
         Parilly.add(28); Parilly.add(30);//Parilly conecta con GaredeVénissieux y MermozPinel
@@ -575,9 +662,9 @@ public class algoritmoAestrella{
         GrangeBlanche.add(31); GrangeBlanche.add(33);//GrangeBlanche conecta con Laennec y Hôtel de MonplaisirLumière
         conexiones.put( 32, GrangeBlanche);
 
-        ArrayList<Integer>  MonplaisirLumière = new ArrayList<>();
-        MonplaisirLumière.add(32);MonplaisirLumière.add(34); //MonplaisirLumière conecta con GrangeBlanche y SansSouci
-        conexiones.put( 33, MonplaisirLumière);
+        ArrayList<Integer>  MonplaisirLumiere = new ArrayList<>();
+        MonplaisirLumiere.add(32);MonplaisirLumiere.add(34); //MonplaisirLumière conecta con GrangeBlanche y SansSouci
+        conexiones.put( 33, MonplaisirLumiere);
 
         ArrayList<Integer> SansSouci = new ArrayList<>();
         SansSouci.add(33); SansSouci.add(35);//SansSouci conecta con MonplaisirLumière y Garibaldi
@@ -587,9 +674,9 @@ public class algoritmoAestrella{
         Garibaldi.add(34); Garibaldi.add(10);//Garibaldi conecta con SansSouci y con Saxe Gambetta
         conexiones.put(35, Garibaldi);
 
-        ArrayList<Integer> GuillotièreGabrielPéri = new ArrayList<>();
-        GuillotièreGabrielPéri.add(10);GuillotièreGabrielPéri.add(25);//GuillotièreGabrielPéri conecta con Saxe Gambetta y Bellecour
-        conexiones.put( 36, GuillotièreGabrielPéri);
+        ArrayList<Integer> GuillotiereGabrielPeri = new ArrayList<>();
+        GuillotiereGabrielPeri.add(10);GuillotiereGabrielPeri.add(25);//GuillotièreGabrielPéri conecta con Saxe Gambetta y Bellecour
+        conexiones.put( 36, GuillotiereGabrielPeri);
 
          ArrayList<Integer>  VieuxLyon = new ArrayList<>();
         VieuxLyon.add(25);VieuxLyon.add(38); //VieuxLyon conecta con Bellecour y GorgedeLoup
@@ -697,6 +784,62 @@ public class algoritmoAestrella{
         } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
         }
+
+        //Teniendo esos 4 se calculan los otros a partir del tiempo entre estaciones
+
+        //Linea A
+        horariosLineaA.add(horarioPerrache);
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(1)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(2)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(3)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(4)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(5)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(6)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(7)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(8)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(9)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(10)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(11)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(12)[0]));
+        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(13)[0]));
+
+        //Linea B
+        horariosLineaB.add(horarioGaredOullins);
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(1)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(2)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(3)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(4)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(5)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(6)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(7)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(8)[0]));
+        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(9)[0]));
+
+
+        //Linea C
+        horariosLineaC.add(horarioHoteldeVilleLPradel);
+        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(1)[0]));
+        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(2)[0]));
+        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(3)[0]));
+        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(4)[0]));
+
+        //Linea D
+        horariosLineaD.add(horarioGaredeVaise);
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(1)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(2)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(3)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(4)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(5)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(6)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(7)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(8)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(9)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(10)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(11)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(12)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(13)[0]));
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(14)[0]));
+
 	}
 
     public static void main(String[] args) {
@@ -730,6 +873,6 @@ public class algoritmoAestrella{
                 System.out.printf("%02d:%02d, ", horarioGaredeVaise.get(i)/60, horarioGaredeVaise.get(i)%60);
         }
 
-
+        
     }
 }

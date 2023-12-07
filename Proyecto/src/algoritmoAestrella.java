@@ -62,13 +62,13 @@ public class algoritmoAestrella{
     private static  ArrayList<Integer> horarioGaredOullins = new ArrayList<Integer>();
 
 
-    private static ArrayList<ArrayList<Integer>> horariosLineaA;
-    private static ArrayList<ArrayList<Integer>> horariosLineaB;
-    private static ArrayList<ArrayList<Integer>> horariosLineaC;
-    private static ArrayList<ArrayList<Integer>> horariosLineaD;
+    private static ArrayList<ArrayList<Integer>> horariosLineaA = new  ArrayList<ArrayList<Integer>>();
+    private static ArrayList<ArrayList<Integer>> horariosLineaB = new  ArrayList<ArrayList<Integer>>();
+    private static ArrayList<ArrayList<Integer>> horariosLineaC = new  ArrayList<ArrayList<Integer>>();
+    private static ArrayList<ArrayList<Integer>> horariosLineaD = new  ArrayList<ArrayList<Integer>>();
 
 
-    private int tiempoAdy(int estacion1, int estacion2, int horaActual){ 
+    private static int tiempoAdy(int estacion1, int estacion2, int horaActual){ 
         //Da el tiempo que se tarda de ir a una estacion a otra siendo estas adyacentes.
         //Partes de la estacion1
         //Tiene en cuenta los horarios
@@ -82,11 +82,22 @@ public class algoritmoAestrella{
 
             //int orig = Math.min(convLinea1, convLinea2);
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
-          
+            
+            // 5  Hotel de ville
+                    //6 Charpennes
+                    //10 saxo gambetta
+                    //25 Bellecour
+            
+            if(estacion1 != 5 & estacion1 != 6 && estacion1 != 25){
+                return tiemposA.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
+            }
             
             while(retraso < 100000){ //debería pararse antes
                 if(horariosLineaA.get(convLinea1).contains(horaActual+retraso)){
-                
+                    
+                    
+
+
                     return tiemposA.get(estacionEfectiva)[0]+retraso;
                 
                  }else retraso++;
@@ -102,6 +113,10 @@ public class algoritmoAestrella{
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
           
             
+            if(estacion1 != 6 ){
+                return tiemposB.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
+            }
+
             while(retraso < 100000){ //debería pararse antes
                 if(horariosLineaB.get(convLinea1).contains(horaActual+retraso)){
                 
@@ -119,6 +134,9 @@ public class algoritmoAestrella{
 
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
           
+            if(estacion1 != 5){
+                return tiemposC.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
+            }
             
             while(retraso < 100000){ //debería pararse antes
                 if(horariosLineaC.get(convLinea1).contains(horaActual+retraso)){
@@ -136,7 +154,10 @@ public class algoritmoAestrella{
             int convLinea2 = conversionALinea(estacion2, "D");
 
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
-          
+            
+            if( estacion1 != 10 && estacion1 != 25){
+                return tiemposA.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
+            }
             
             while(retraso < 100000){ //debería pararse antes
                 if(horariosLineaD.get(convLinea1).contains(horaActual+retraso)){
@@ -154,7 +175,7 @@ public class algoritmoAestrella{
     }
 
 
-    private int conversionALinea(int estacion, String linea){ 
+    private static int conversionALinea(int estacion, String linea){ 
 
         if(linea.equals("A")){
             return estacionesLineaA.indexOf(estacion);
@@ -174,7 +195,7 @@ public class algoritmoAestrella{
     }
 
 
-    private int distEur(int orig, int dest){
+    private static int distEur(int orig, int dest){
 
         //distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano
         //y luego sabiendo la distancia entre las estaciones de trasbordo que es fija 
@@ -250,7 +271,7 @@ public class algoritmoAestrella{
         return 0;
     }
 
-    private int trasbordoMasCercano(int estacion){
+    private static int trasbordoMasCercano(int estacion){
 
 
         //trasbordoMasCercano: dada una estación devuelve la estacion trasbordo más cercana
@@ -279,7 +300,7 @@ public class algoritmoAestrella{
     }
 
 
-    private int[] exploraCamino(int estacion, int anterior, int profundidad){
+    private static int[] exploraCamino(int estacion, int anterior, int profundidad){
 
         int res[] = {estacion,anterior, profundidad};
         int dummy[] = {0,0,9999}; //sirve para marcar extremos
@@ -306,15 +327,15 @@ public class algoritmoAestrella{
     }
 
 
-    //Devuelve el camino de estaciones. La última posición del array no es una estación, es el coste 
-    private ArrayList<Integer> Aestrella(int inicio, int destino, int horaIni){
+    //Devuelve el camino de estaciones. La última posición del array no es una estación, es el coste (minutos)
+    private static ArrayList<Integer> Aestrella(int inicio, int destino, int horaIni){
 
         Set<Estacion> listaAbierta = new HashSet<>();
         Set<Integer> listaCerrada = new HashSet<>();
         Map<Integer, Integer> vieneDe = new HashMap<>();
         Map<Integer, Integer> costePorAhora = new HashMap<>();
         Iterator<Integer> it;
-        //Coste está en SEGUNDOS
+
         listaAbierta.add(new Estacion(inicio, 0, distEur(inicio, destino), horaIni));
 
         vieneDe.put(inicio, -1);
@@ -326,7 +347,6 @@ public class algoritmoAestrella{
             Iterator<Estacion> it2 = listaAbierta.iterator();
             int costeMenor = 99999999;
             Estacion posibleSiguiente = null;
-           // int posActualPrima = posActual;
             while (it2.hasNext()) {
                 Estacion siguiente =  it2.next();
 
@@ -338,9 +358,10 @@ public class algoritmoAestrella{
                  
 
             }
-            posActual = posibleSiguiente;
-            listaAbierta.remove(posActual);
 
+            posActual = posibleSiguiente;
+
+            listaAbierta.remove(posActual);
 
             if (posActual.getPos() == destino) {
                 return recorrido(vieneDe, destino, costePorAhora.get(destino));
@@ -353,6 +374,7 @@ public class algoritmoAestrella{
 
             while(it.hasNext()) {
                 int conexion = it.next();
+                //System.out.println(conexion);
                 if (!listaCerrada.contains(conexion)) {
 
                     int tiempoTardo = tiempoAdy(posActual.getPos(), conexion, posActual.getHoraLlego());
@@ -362,7 +384,7 @@ public class algoritmoAestrella{
                     if (!costePorAhora.containsKey(conexion) || nuevoCoste < costePorAhora.get(conexion)) {
                         costePorAhora.put(conexion, nuevoCoste);
                         int funcion = nuevoCoste + distEur(conexion, destino)/7;  //Ojito 2 min -- 840 m 
-                        int horaNueva = posActual.getHoraLlego() + tiempoTardo;
+                        int horaNueva = (posActual.getHoraLlego() + tiempoTardo )  % 1440; //evitar problemas tiempo
                         listaAbierta.add(new Estacion(conexion, nuevoCoste, funcion, horaNueva));
                         vieneDe.put(conexion, posActual.getPos());
                     }
@@ -376,7 +398,7 @@ public class algoritmoAestrella{
         return null;
     }
 
-    private ArrayList<Integer> recorrido(Map<Integer, Integer> vieneDe, int actual, int costeTotal) {
+    private static ArrayList<Integer> recorrido(Map<Integer, Integer> vieneDe, int actual, int costeTotal) {
         ArrayList<Integer> caminoRe = new ArrayList<>();
         while (actual != -1) {
             caminoRe.add(actual);
@@ -591,7 +613,8 @@ public class algoritmoAestrella{
         conexiones.put( 24, Cordeliers);
 
         ArrayList<Integer> Bellecour = new ArrayList<>();
-        Bellecour.add(24); Bellecour.add(26); //Bellecour conecta con Cordeliers y AmpèreVictorHugo
+        Bellecour.add(24); Bellecour.add(26); //Bellecour conecta con Cordeliers y AmpèreVictorHugo. 
+        Bellecour.add(36); Bellecour.add(37); //También con Guillotière Gabriel Péri y Vieux Lyon
         conexiones.put( 25, Bellecour);
 
         ArrayList<Integer> AmpereVictorHugo = new ArrayList<>();
@@ -844,6 +867,7 @@ public class algoritmoAestrella{
 
     public static void main(String[] args) {
         inicializa();
+        /* 
         System.out.println(" ----------------------------- \nLINEA A \n-----------------------------");
         for (int i = 0; i < horarioPerrache.size(); i++) {
             if (i == horarioPerrache.size()-1)
@@ -872,6 +896,8 @@ public class algoritmoAestrella{
             else
                 System.out.printf("%02d:%02d, ", horarioGaredeVaise.get(i)/60, horarioGaredeVaise.get(i)%60);
         }
+        */
+        System.out.println(Aestrella(22,35,23*60+59));
 
         
     }

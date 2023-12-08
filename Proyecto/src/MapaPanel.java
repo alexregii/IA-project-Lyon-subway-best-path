@@ -83,7 +83,7 @@ public class MapaPanel extends JPanel {
         coordenadas.put(40, new int[]{105, 210}); //Gare de Vaise
         
         //Lineas que crean conexiones entre los puntos (paradas)
-        conexiones.put(1, new int[][]{{coordenadas.get(1)[0]+10,coordenadas.get(1)[1]+20}, {coordenadas.get(2)[0]+16,coordenadas.get(2)[1]+2}});
+        conexiones.put(1, new int[][]{{coordenadas.get(1)[0]+6,coordenadas.get(1)[1]+19}, {coordenadas.get(2)[0]+16,coordenadas.get(2)[1]+2}});
         conexiones.put(2, new int[][]{{coordenadas.get(2)[0]+17,coordenadas.get(2)[1]+18}, {coordenadas.get(3)[0]+5,coordenadas.get(3)[1]+2}});
         conexiones.put(3, new int[][]{{coordenadas.get(3)[0]+17,coordenadas.get(3)[1]+18}, {coordenadas.get(4)[0]+5,coordenadas.get(4)[1]+2}});
         conexiones.put(4, new int[][]{{coordenadas.get(4)[0]+12,coordenadas.get(4)[1]+20}, {coordenadas.get(5)[0]+10,coordenadas.get(5)[1]}});
@@ -95,7 +95,7 @@ public class MapaPanel extends JPanel {
         conexiones.put(10, new int[][]{{coordenadas.get(11)[0]+7,coordenadas.get(11)[1]+19}, {coordenadas.get(12)[0]+14,coordenadas.get(12)[1]}});
         conexiones.put(11, new int[][]{{coordenadas.get(12)[0]+7,coordenadas.get(12)[1]+19}, {coordenadas.get(13)[0]+14,coordenadas.get(13)[1]}});
         conexiones.put(12, new int[][]{{coordenadas.get(13)[0]+7,coordenadas.get(13)[1]+19}, {coordenadas.get(14)[0]+14,coordenadas.get(14)[1]}});
-        conexiones.put(13, new int[][]{{coordenadas.get(14)[0]+3,coordenadas.get(14)[1]+17}, {coordenadas.get(15)[0]+17,coordenadas.get(15)[1]+2}});
+        conexiones.put(13, new int[][]{{coordenadas.get(14)[0]+3,coordenadas.get(14)[1]+17}, {coordenadas.get(15)[0]+17,coordenadas.get(15)[1]+3}});
         conexiones.put(14, new int[][]{{coordenadas.get(16)[0],coordenadas.get(16)[1]+10}, {coordenadas.get(17)[0]+20,coordenadas.get(17)[1]+12}});
         conexiones.put(15, new int[][]{{coordenadas.get(17)[0],coordenadas.get(17)[1]+8}, {coordenadas.get(18)[0]+19,coordenadas.get(18)[1]+12}});
         conexiones.put(16, new int[][]{{coordenadas.get(18)[0],coordenadas.get(18)[1]+8}, {coordenadas.get(19)[0]+20,coordenadas.get(19)[1]+12}});

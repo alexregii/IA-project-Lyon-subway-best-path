@@ -153,9 +153,9 @@ class myFrame extends JFrame {
                     if(horaValida){
                         hora = 60*((int)comboHora.getSelectedItem())+((int)comboMinuto.getSelectedItem());
                         algoritmoAestrella.codEstacion.forEach((cod,estacion)->{
-                                if(codOrigen==-1&&seleccionOrigen.equals(estacion))
+                                if(codOrigen==-1||seleccionOrigen.equals(estacion))
                                     codOrigen = cod;
-                                else if(codDestino==-1&&seleccionDestino.equals(estacion))
+                                else if(codDestino==-1||seleccionDestino.equals(estacion))
                                     codDestino = cod;
                                     });
                         algoritmoAestrella a = new algoritmoAestrella();

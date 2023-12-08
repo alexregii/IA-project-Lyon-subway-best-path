@@ -1,8 +1,9 @@
+package practicaia;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
-import java.util.List;
 import java.util.stream.*;
 
 import javax.swing.JFrame;
@@ -41,10 +42,6 @@ public class UIpracticaIA {
         panelPrincipal.add(panelMapa);
         frame.add(panelPrincipal);*/
     }
-    
-    /*
-     * pinta el mapa con el trayecto resaltado
-     */
     
     
 }
@@ -161,16 +158,12 @@ class myFrame extends JFrame {
                                     });
                         algoritmoAestrella a = new algoritmoAestrella();
                         trayecto = a.Aestrella(codOrigen, codDestino, hora);
-                        loadMapa(trayecto);
+                        //loadMapa(trayecto); //Falta implementacion
                     }
                 }
                 
             }
         });
-    }
-    
-    public void loadMapa(List<Integer> trayecto){
-        
     }
     
     public static void loadCombo(JComboBox<String> combo, int linea){
@@ -202,6 +195,11 @@ class myFrame extends JFrame {
                 break;
         }
     }
+    
+    public static void loadMapa(ArrayList<Integer> trayecto){
+        //code
+    }
+    
     
     public void inicializar(){
         
@@ -300,8 +298,7 @@ class myFrame extends JFrame {
          */
         
         //Panel del Mapa
-        JPanel panelMapa = new JPanel();
-        panelMapa.add(new JTextArea());
+        SVGApplication app = new SVGApplication();
         //El panel mapa empieza en 1,0 y ocupa 3 filas y 2 columnas
         constraints.gridx = 1;
         constraints.gridy = 0;
@@ -311,7 +308,8 @@ class myFrame extends JFrame {
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weighty = 1.0;
         constraints.weightx = 1.0;
-        this.getContentPane().add(panelMapa,constraints);
+        constraints.insets = new Insets(10,10,10,10);
+        this.getContentPane().add(app.createComponents(),constraints);
         
         //Panel origen
         

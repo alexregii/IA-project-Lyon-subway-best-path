@@ -1,0 +1,41 @@
+﻿Id;Nombre java;Nombre del Plano;Lines;Diferencias;;x;y;Links
+1;Cuire;Cuire;C;;;275;127;
+2;Hénon;Hénon;C;;;239;207;
+3;Croix-Rousse;Croix-Rousse;C;;;268;241;
+4;Croix-Paquet;Croix-Paquet;C;;guion;292;272;
+5;Hôtel de Ville L. Pradel;Hôtel de Ville Louis Pradel;C;Diferente;Louis expanded;292;308;link C-A
+6;Charpennes;Charpennes Charles Hernu;B;Diferente;Charles Hernu added;459;288;link B-A
+7;Brotteaux;Brotteaux;B;;;448;317;
+8;Gare Part-Dieu V. Merle;Gare Part-Dieu Vivier Merle;B;Diferente;Vivier expanded;433;358;
+9;Place Guichard;Place Guichard Bourse du Travail;B;Diferente;;375;388;
+10;Saxe Gambetta;Saxe Gambetta;B;;;368;435;link B-D
+11;Jean Macé;Jean Macé;B;;;337;514;
+12;Place Jean Jaurès;Place Jean Jaurès;B;;;313;572;
+13;Debourg;Debourg;B;;;282;649;
+14;Stade de Gerland;Stade de Gerland;B;;;263;695;
+15;Gare d’Oullins;Oullins Gare;B;Diferente;changed;160;789;
+16;Vaulx-en-Velin La Soie;Vaulx-en-Velin La Soie;A;;;858;361;
+17;Laurent Bonnevay;Laurent Bonnevay Astroballe;A;Diferente;;763;340;
+18;Cusset;Cusset;A;;;703;324;
+19;Flachet;Flachet;A;;;643;308;
+20;Gratte Ciel;Gratte-Ciel;A;Diferente;;582;291;
+21;République Villeurbanne;République Villeurbanne;A;;;540;280;
+22;Masséna;Masséna;A;;;413;289;
+23;Foch;Foch;A;;;358;296;
+24;Cordeliers;Cordeliers;A;;;297;347;
+25;Bellecour;Bellecour;A;;;277;403;lind A-D
+26;Ampère-Victor Hugo;Ampère Victor Hugo;A;Diferente;;251;442;
+27;Perrache;Perrache;A;;;235;481;
+28;Gare de Vénissieux;Gare de Vénissieux;D;;;634;876;
+29;Parilly;Parilly;D;;;630;740;
+30;Mermoz-Pinel;Mermoz Pinel;D;Diferente;;627;665;
+31;Laennec;Laënnec;D;Diferente;;615;569;
+32;Grange Blanche;Grange Blanche;D;;;580;540;
+33;Monplaisir Lumière;Monplaisir-Lumière;D;Diferente;;526;516;
+34;Sans Souci;Sans-Souci;D;Diferente;;485;495;
+35;Garibaldi;Garibaldi;D;;;422;463;
+36;Guillotière Gabriel Péri;Guillotière;D;Diferente;;343;422;
+37;Vieux Lyon;Vieux Lyon Cathédrale St. Jean;D;Diferente;;230;374;
+38;Gorge de Loup;Gorge de Loup;D;;;100;316;
+39;Valmy;Valmy;D;;;98;237;
+40;Gare de Vaise;Gare de Vaise;D;;;92;185;

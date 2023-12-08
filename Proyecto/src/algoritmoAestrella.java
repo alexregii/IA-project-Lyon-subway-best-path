@@ -14,12 +14,11 @@ import java.util.Set;
  * Vamos a tener todas las estaciones asociadas a un int (podremos sacar luego su nombre de un hashmap)
  * 
  * 
- * Para los tiempos es en segundos todo. Las 0:00 es 0 y las 23:59 es  (tener cuidado con viajes que empiezan tarde)
- * TODO Horarios de todas las estaciones pasados a este formato 
- * TODO los costes en segundos también
+ * Para los tiempos es en minutos todo. Las 0:00 es 0 y las 23:59 es 1439 (tener cuidado con viajes que empiezan tarde) (se soluciona con el módulo)
  * estacionesPosibles: dada una estacion devuelve a que estaciones están adyacentes a ella
- * distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano
- * y luego sabiendo la distancia entre las estaciones de trasbordo que es fija 
+ * distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano en caso de que estén en líneas distintas
+ * y luego sabiendo la distancia entre las estaciones de trasbordo que es fija. Si están 
+ * 
  * trasbordoMasCercano: dada una estación devuelve la estacion trasbordo más cercana
  * calculaTiempo: dado un camino de estaciones en forma de ArrayList devuelve el tiempo que tarda en recorrerlo (hay que tener en cuenta horarios)
  * 
@@ -110,7 +109,8 @@ public class algoritmoAestrella{
             int convLinea1 = conversionALinea(estacion1, "B");
             int convLinea2 = conversionALinea(estacion2, "B");
 
-            int estacionEfectiva = Math.max(convLinea1, convLinea2);
+            int estacionEfectiva = Math.max(convLinea1, convLinea2); //Para que sea más fácil calcular los tiempos con la estructura de datos
+            //Se supone que se tarda lo mismo en ir de A a B que de B a A
           
             
             if(estacion1 != 6 ){
@@ -174,7 +174,7 @@ public class algoritmoAestrella{
          return 0;
     }
 
-
+    //Dada un código de estación y una línea da la posición relativa de la estación con respecto de la línea 
     private static int conversionALinea(int estacion, String linea){ 
 
         if(linea.equals("A")){
@@ -200,7 +200,7 @@ public class algoritmoAestrella{
         //distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano
         //y luego sabiendo la distancia entre las estaciones de trasbordo que es fija 
 
-        //Si están en la misma linea, es la distancia
+        //Si están en la misma linea, es la distancia entre ellas que se puede calcular directamente respecto a la estructura de datos
         if (estacionesLineaA.contains(orig) && estacionesLineaA.contains(dest)){
             return Math.abs(tiemposA.get(conversionALinea(orig, "A") )[1] - tiemposA.get(conversionALinea(dest, "A") )[1]  );
             
@@ -220,7 +220,8 @@ public class algoritmoAestrella{
 
 
 
-        //si están en distintas lineas es esto
+        //si están en distintas lineas se calcula la distancia a la estacion trasbordo más cercana
+        //Y luego la distancia entre las estaciones trasbordo
 
         int orig1 = trasbordoMasCercano(orig);
 
@@ -299,7 +300,8 @@ public class algoritmoAestrella{
 
     }
 
-
+    // Sirve para recorrer líneas en una dirección hasta encontrar un trasbordo
+    //La profundidad marca cuantas estaciones te tienes que mover hasta encontrarlo
     private static int[] exploraCamino(int estacion, int anterior, int profundidad){
 
         int res[] = {estacion,anterior, profundidad};
@@ -320,14 +322,11 @@ public class algoritmoAestrella{
             
         }
 
-        
-
-        //return res; 
 
     }
 
 
-    //Devuelve el camino de estaciones. La última posición del array no es una estación, es el coste (minutos)
+    //Devuelve el camino de estaciones óptimo con el algortimo A *. La última posición del array no es una estación, es el coste (minutos)
     private static ArrayList<Integer> Aestrella(int inicio, int destino, int horaIni){
 
         Set<Estacion> listaAbierta = new HashSet<>();
@@ -336,7 +335,7 @@ public class algoritmoAestrella{
         Map<Integer, Integer> costePorAhora = new HashMap<>();
         Iterator<Integer> it;
 
-        listaAbierta.add(new Estacion(inicio, 0, distEur(inicio, destino), horaIni));
+        listaAbierta.add(new Estacion(inicio, distEur(inicio, destino), horaIni));
 
         vieneDe.put(inicio, -1);
         costePorAhora.put(inicio, 0);
@@ -374,7 +373,7 @@ public class algoritmoAestrella{
 
             while(it.hasNext()) {
                 int conexion = it.next();
-                //System.out.println(conexion);
+
                 if (!listaCerrada.contains(conexion)) {
 
                     int tiempoTardo = tiempoAdy(posActual.getPos(), conexion, posActual.getHoraLlego());
@@ -385,7 +384,7 @@ public class algoritmoAestrella{
                         costePorAhora.put(conexion, nuevoCoste);
                         int funcion = nuevoCoste + distEur(conexion, destino)/7;  //Ojito 2 min -- 840 m 
                         int horaNueva = (posActual.getHoraLlego() + tiempoTardo )  % 1440; //evitar problemas tiempo
-                        listaAbierta.add(new Estacion(conexion, nuevoCoste, funcion, horaNueva));
+                        listaAbierta.add(new Estacion(conexion, funcion, horaNueva));
                         vieneDe.put(conexion, posActual.getPos());
                     }
                 }
@@ -398,6 +397,8 @@ public class algoritmoAestrella{
         return null;
     }
 
+
+    //Genera el camino sabiendo las direcciones y las estaciones que están en el recorrido. La última posición del array no es una estación, es el coste (minutos)
     private static ArrayList<Integer> recorrido(Map<Integer, Integer> vieneDe, int actual, int costeTotal) {
         ArrayList<Integer> caminoRe = new ArrayList<>();
         while (actual != -1) {
@@ -418,23 +419,17 @@ public class algoritmoAestrella{
 
     private static class Estacion {
         private final int posicion;
-        private final int coste;
         private final int funcion;
         private final int horaLlego;
 
-        public Estacion(int posicion, int coste, int funcion, int horaLlego) {
+        public Estacion(int posicion, int funcion, int horaLlego) {
             this.posicion = posicion;
-            this.coste = coste;
             this.funcion = funcion;
             this.horaLlego = horaLlego;
         }
 
         public int getPos() {
             return posicion;
-        }
-
-        public int getCoste() {
-            return coste;
         }
 
         public int getFun() {
@@ -446,10 +441,9 @@ public class algoritmoAestrella{
         }
     }
 
+
+    //Dado un horario te da el horario desfasado un tiempo llamado suma
     private static ArrayList<Integer> sumaHorario(ArrayList<Integer> horario, int suma){
-
-        //Dado un horario te da el horario desfasado un tiempo llamado suma
-
         ArrayList<Integer> res = new ArrayList<Integer>();
 
         Iterator<Integer> it = horario.iterator();
@@ -812,56 +806,28 @@ public class algoritmoAestrella{
 
         //Linea A
         horariosLineaA.add(horarioPerrache);
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(1)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(2)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(3)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(4)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(5)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(6)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(7)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(8)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(9)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(10)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(11)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(12)[0]));
-        horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(13)[0]));
+        for(int i = 1; i< tiemposA.size();i++){
+            horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(i)[0]));
+        }
 
         //Linea B
         horariosLineaB.add(horarioGaredOullins);
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(1)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(2)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(3)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(4)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(5)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(6)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(7)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(8)[0]));
-        horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(9)[0]));
+        for(int i = 1; i< tiemposB.size();i++){
+            horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(i)[0]));
+        }
 
 
         //Linea C
         horariosLineaC.add(horarioHoteldeVilleLPradel);
-        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(1)[0]));
-        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(2)[0]));
-        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(3)[0]));
-        horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(4)[0]));
+        for(int i = 1; i< tiemposC.size();i++){
+            horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(i)[0]));
+        }
 
         //Linea D
         horariosLineaD.add(horarioGaredeVaise);
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(1)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(2)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(3)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(4)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(5)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(6)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(7)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(8)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(9)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(10)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(11)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(12)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(13)[0]));
-        horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(14)[0]));
+        for(int i = 1; i< tiemposD.size();i++){
+            horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(i)[0]));
+        }
 
 	}
 

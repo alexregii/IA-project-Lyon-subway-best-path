@@ -79,24 +79,19 @@ public class algoritmoAestrella{
             int convLinea1 = conversionALinea(estacion1, "A");
             int convLinea2 = conversionALinea(estacion2, "A");
 
-            //int orig = Math.min(convLinea1, convLinea2);
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
             
             // 5  Hotel de ville
-                    //6 Charpennes
-                    //10 saxo gambetta
-                    //25 Bellecour
+            //6 Charpennes
+            //10 saxo gambetta
+            //25 Bellecour
             
             if(estacion1 != 5 & estacion1 != 6 && estacion1 != 25){
                 return tiemposA.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
             }
             
             while(retraso < 100000){ //debería pararse antes
-                if(horariosLineaA.get(convLinea1).contains(horaActual+retraso)){
-                    
-                    
-
-
+                if(horariosLineaA.get(estacion1 != 5 ? (estacion1 == 6 ? 2: 0) :1).contains(horaActual+retraso)){
                     return tiemposA.get(estacionEfectiva)[0]+retraso;
                 
                  }else retraso++;
@@ -113,12 +108,12 @@ public class algoritmoAestrella{
             //Se supone que se tarda lo mismo en ir de A a B que de B a A
           
             
-            if(estacion1 != 6 ){
+            if(estacion1 != 6 || estacion1 != 10 ){
                 return tiemposB.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
             }
 
             while(retraso < 100000){ //debería pararse antes
-                if(horariosLineaB.get(convLinea1).contains(horaActual+retraso)){
+                if(horariosLineaB.get(estacion1 == 6 ? 1 : 0).contains(horaActual+retraso)){
                 
                     return tiemposB.get(estacionEfectiva)[0]+retraso;
                 
@@ -139,7 +134,7 @@ public class algoritmoAestrella{
             }
             
             while(retraso < 100000){ //debería pararse antes
-                if(horariosLineaC.get(convLinea1).contains(horaActual+retraso)){
+                if(horariosLineaC.get(0).contains(horaActual+retraso)){
                 
                     return tiemposC.get(estacionEfectiva)[0]+retraso;
                 
@@ -160,7 +155,7 @@ public class algoritmoAestrella{
             }
             
             while(retraso < 100000){ //debería pararse antes
-                if(horariosLineaD.get(convLinea1).contains(horaActual+retraso)){
+                if(horariosLineaD.get(estacion1 == 25 ? 0 : 1).contains(horaActual+retraso)){
                 
                     return tiemposD.get(estacionEfectiva)[0]+retraso;
                 
@@ -191,11 +186,11 @@ public class algoritmoAestrella{
         }
        
         //No se debería ejecutar
-        return 0;
+        return -99999;
     }
 
 
-    private static int distEur(int orig, int dest){
+    private static int distHeur(int orig, int dest){
 
         //distEur: dadas dos estaciones devuelve la distancia euristica. Esto lo hace calculando el trasbordo más cercano
         //y luego sabiendo la distancia entre las estaciones de trasbordo que es fija 
@@ -225,23 +220,27 @@ public class algoritmoAestrella{
 
         int orig1 = trasbordoMasCercano(orig);
 
-        int dif1 = distEur(orig, orig1);
+        int dif1 = distHeur(orig, orig1);
 
         int dest1 = trasbordoMasCercano(dest);
 
-        int dif2 = distEur(dest, dest1);
+        int dif2 = distHeur(dest, dest1);
 
         // 5  Hotel de ville
         //6 Charpennes
         //10 saxo gambetta
         //25 Bellecour
-
+        
         /*Belecour - Charpennes (2680 ), 
         Saxo Gamebta - Hotel de ville (1710 )
         Saxo Gamebta - Charpennes (2230 )
         Belecour -  Hotel de ville 1100
         Belecour  - Saxo Gamebta 1100
         Hotel de ville  - Charpennes 2000 */
+
+        if(orig1 == dest1){
+            return dif1+dif2;
+        }
 
         if(orig1 == 5 && dest1 == 6|| orig1 == 6 && dest1 == 5 ){
             return 2000+dif1+dif2;
@@ -334,8 +333,8 @@ public class algoritmoAestrella{
         Map<Integer, Integer> vieneDe = new HashMap<>();
         Map<Integer, Integer> costePorAhora = new HashMap<>();
         Iterator<Integer> it;
-
-        listaAbierta.add(new Estacion(inicio, distEur(inicio, destino), horaIni));
+        
+        listaAbierta.add(new Estacion(inicio, distHeur(inicio, destino), horaIni));
 
         vieneDe.put(inicio, -1);
         costePorAhora.put(inicio, 0);
@@ -382,7 +381,7 @@ public class algoritmoAestrella{
 
                     if (!costePorAhora.containsKey(conexion) || nuevoCoste < costePorAhora.get(conexion)) {
                         costePorAhora.put(conexion, nuevoCoste);
-                        int funcion = nuevoCoste + distEur(conexion, destino)/7;  //Ojito 2 min -- 840 m 
+                        int funcion = nuevoCoste + distHeur(conexion, destino)/420;  //Ojito 1 min -- 420 m 
                         int horaNueva = (posActual.getHoraLlego() + tiempoTardo )  % 1440; //evitar problemas tiempo
                         listaAbierta.add(new Estacion(conexion, funcion, horaNueva));
                         vieneDe.put(conexion, posActual.getPos());
@@ -804,30 +803,33 @@ public class algoritmoAestrella{
 
         //Teniendo esos 4 se calculan los otros a partir del tiempo entre estaciones
 
+        // 5  Hotel de ville
+        //6 Charpennes
+        //10 saxo gambetta
+        //25 Bellecour
+        
+
         //Linea A
-        horariosLineaA.add(horarioPerrache);
-        for(int i = 1; i< tiemposA.size();i++){
-            horariosLineaA.add(sumaHorario(horarioPerrache, tiemposA.get(i)[0]));
-        }
+        //horariosLineaA.add(horarioPerrache);
+        horariosLineaA.add(sumaHorario(horarioPerrache, 3)); //Bellecour
+        horariosLineaA.add(sumaHorario(horarioPerrache, 6)); //Hotelle
+        horariosLineaA.add(sumaHorario(horarioPerrache, 11)); //Charpennes
 
         //Linea B
-        horariosLineaB.add(horarioGaredOullins);
-        for(int i = 1; i< tiemposB.size();i++){
-            horariosLineaB.add(sumaHorario(horarioGaredOullins, tiemposB.get(i)[0]));
-        }
+        //horariosLineaB.add(horarioGaredOullins);
+        horariosLineaB.add(sumaHorario(horarioGaredOullins,9)); //Saxe gambetta
+        horariosLineaB.add(sumaHorario(horarioGaredOullins,16)); //Charpennes
 
 
         //Linea C
         horariosLineaC.add(horarioHoteldeVilleLPradel);
-        for(int i = 1; i< tiemposC.size();i++){
-            horariosLineaC.add(sumaHorario(horarioHoteldeVilleLPradel, tiemposC.get(i)[0]));
-        }
+        //y ya
 
         //Linea D
-        horariosLineaD.add(horarioGaredeVaise);
-        for(int i = 1; i< tiemposD.size();i++){
-            horariosLineaD.add(sumaHorario(horarioGaredeVaise, tiemposD.get(i)[0]));
-        }
+        //horariosLineaD.add(horarioGaredeVaise);
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, 8)); //Bellecour
+        horariosLineaD.add(sumaHorario(horarioGaredeVaise, 11)); // Saxe Gambetta
+
 
 	}
 

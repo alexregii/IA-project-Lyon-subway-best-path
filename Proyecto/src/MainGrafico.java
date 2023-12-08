@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import javax.swing.*;
 
 
@@ -8,14 +9,28 @@ public class MainGrafico {
         window.setResizable(false);
         window.setTitle("Mapa");
         
-        MapaPanel mapaPanel = new MapaPanel();
+        ArrayList<Integer> lista = new ArrayList();
+        /* Ejemplo que toma una ruta:
+        ** Croix-Paquet -- > Place Jean Jaures
+        */
+        lista.add(4); lista.add(5); lista.add(24);
+        lista.add(25); lista.add(36); lista.add(10);
+        lista.add(11); lista.add(12);
+        MapaPanel mapaPanel = new MapaPanel(lista);
         window.add(mapaPanel);
         
         window.pack(); //Junta el JFrame con el JPanel
         
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        
-        mapaPanel.startMapa(); //Inicia el thread de MapaPanel
     }
 }
+
+        
+
+
+
+
+
+
+

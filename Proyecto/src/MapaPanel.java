@@ -1,6 +1,8 @@
+package practicaia;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+
 
 
 public class MapaPanel extends JPanel {
@@ -20,6 +22,21 @@ public class MapaPanel extends JPanel {
         this.setDoubleBuffered(true);
         
         inicializarcoordenadas();
+    }
+    
+    public MapaPanel(){
+        this.coordenadas = new HashMap();
+        this.conexiones = new HashMap();
+        
+        this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
+        this.setBackground(Color.white);
+        this.setDoubleBuffered(true);
+        
+        inicializarcoordenadas();
+    }
+    
+    public void setRuta (ArrayList<Integer> ruta) {
+    	trayecto = ruta;
     }
     
     private void inicializarcoordenadas() {
@@ -53,7 +70,7 @@ public class MapaPanel extends JPanel {
         coordenadas.put(27, new int[]{265, 540}); //Perrache
         coordenadas.put(28, new int[]{715, 985}); //Gare de Venissieux
         coordenadas.put(29, new int[]{710, 835}); //Parilly
-        coordenadas.put(30, new int[]{750, 705}); //Mermoz-Pinel
+        coordenadas.put(30, new int[]{705, 750}); //Mermoz-Pinel
         coordenadas.put(31, new int[]{690, 640}); //Laennec
         coordenadas.put(32, new int[]{650, 610}); //Grange Blanche
         coordenadas.put(33, new int[]{590, 580}); //Monplaisir Lumiere
@@ -93,8 +110,8 @@ public class MapaPanel extends JPanel {
         conexiones.put(25, new int[][]{{coordenadas.get(25)[0]+6,coordenadas.get(25)[1]+19}, {coordenadas.get(26)[0]+17,coordenadas.get(26)[1]+2}});
         conexiones.put(26, new int[][]{{coordenadas.get(26)[0]+7,coordenadas.get(26)[1]+20}, {coordenadas.get(27)[0]+15,coordenadas.get(27)[1]+2}});
         conexiones.put(27, new int[][]{{coordenadas.get(28)[0]+9,coordenadas.get(28)[1]}, {coordenadas.get(29)[0]+12,coordenadas.get(29)[1]+19}});
-        conexiones.put(28, new int[][]{{coordenadas.get(29)[0]+15,coordenadas.get(29)[1]+2}, {coordenadas.get(30)[0]+8,coordenadas.get(30)[1]+20}});
-        conexiones.put(29, new int[][]{{coordenadas.get(30)[0]+5,coordenadas.get(30)[1]+3}, {coordenadas.get(31)[0]+15,coordenadas.get(31)[1]+18}});
+        conexiones.put(28, new int[][]{{coordenadas.get(29)[0]+10,coordenadas.get(29)[1]+2}, {coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+20}});
+        conexiones.put(29, new int[][]{{coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+7}, {coordenadas.get(31)[0]+12,coordenadas.get(31)[1]+18}});
         conexiones.put(30, new int[][]{{coordenadas.get(31)[0]+1,coordenadas.get(31)[1]+6}, {coordenadas.get(32)[0]+17,coordenadas.get(32)[1]+17}});
         conexiones.put(31, new int[][]{{coordenadas.get(32)[0]+1,coordenadas.get(32)[1]+6}, {coordenadas.get(33)[0]+19,coordenadas.get(33)[1]+13}});
         conexiones.put(32, new int[][]{{coordenadas.get(33)[0]+1,coordenadas.get(33)[1]+6}, {coordenadas.get(34)[0]+19,coordenadas.get(34)[1]+15}});
@@ -110,13 +127,32 @@ public class MapaPanel extends JPanel {
     
     private void creacionMapa(Graphics2D g) {
         //Funcion que dibuja el mapa
+        g.setColor(new Color(240,147,0));
+        g.setStroke(new BasicStroke(7)); //Agranda las lineas que se dibujan
+        for (int i = 1; i < 5; i++) {
+            g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+        }
+        g.setColor(new Color(0, 148, 215));
+        for (int i = 5; i < 14; i++) {
+            g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+        }
+        g.setColor(new Color(224,0,26));
+        for (int i = 14; i < 27; i++) {
+            g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+        }
+        g.setColor(new Color(0,143,54));
+        for (int i = 27; i < 41; i++) {
+            g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+        }
+        g.setColor(Color.white);
+        g.setStroke(new BasicStroke(2)); //Agranda las lineas que se dibujan
+        for (int i = 1; i <= coordenadas.size(); i++){
+            g.fillOval(coordenadas.get(i)[0], coordenadas.get(i)[1], 20, 20);
+        }        
         g.setColor(Color.black); //Color de lo que se quiere dibujar
         g.setStroke(new BasicStroke(2)); //Agranda las lineas que se dibujan
         for (int i = 1; i <= coordenadas.size(); i++){
             g.drawOval(coordenadas.get(i)[0], coordenadas.get(i)[1], 20, 20);
-        }
-        for (int i = 1; i <= conexiones.size(); i++) {
-            g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
         }
     }
     
@@ -126,13 +162,13 @@ public class MapaPanel extends JPanel {
         ** en rojo se registra la parada destino.
         */
         g.setColor(Color.green);
-        g.fillOval(coordenadas.get(lista.get(0))[0]+1, coordenadas.get(lista.get(0))[1]+1, 18, 18);
+        g.fillOval(coordenadas.get(lista.get(0))[0]+1, coordenadas.get(lista.get(0))[1]+1, 19, 19);
         g.setColor(Color.CYAN);
-        for (int i = 1; i < lista.size()-1; i++) {
-            g.fillOval(coordenadas.get(lista.get(i))[0]+1, coordenadas.get(lista.get(i))[1]+1, 18, 18);
+        for (int i = 1; i < lista.size()-2; i++) {
+            g.fillOval(coordenadas.get(lista.get(i))[0]+1, coordenadas.get(lista.get(i))[1]+1, 19, 19);
         }
         g.setColor(Color.red);
-        g.fillOval(coordenadas.get(lista.get(lista.size()-1))[0]+1, coordenadas.get(lista.get(lista.size()-1))[1]+1, 18, 18);
+        g.fillOval(coordenadas.get(lista.get(lista.size()-2))[0]+1, coordenadas.get(lista.get(lista.size()-2))[1]+1, 19, 19);
     }
     
     @Override
@@ -140,7 +176,10 @@ public class MapaPanel extends JPanel {
         //Codigo a mejorar
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON);
         creacionMapa(g2);
-        registrarParadas(g2, trayecto);
+        if (trayecto != null)
+        	registrarParadas(g2, trayecto);
     }
 }

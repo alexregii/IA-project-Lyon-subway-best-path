@@ -71,6 +71,8 @@ class myFrame extends JFrame {
     private JPanel panelSeleccionOrigen = new JPanel();
     private JPanel panelDestino = new JPanel(new BorderLayout(10,10));
     private JPanel panelSeleccionDestino = new JPanel();
+
+    private MapaPanel mapaPanel = new MapaPanel();
     
     //Combos y panel para hora
     private JComboBox<Integer> comboHora;
@@ -158,6 +160,9 @@ class myFrame extends JFrame {
                                     });
                         algoritmoAestrella a = new algoritmoAestrella();
                         trayecto = a.Aestrella(codOrigen, codDestino, hora);
+                        System.out.println(trayecto.toString());
+                        mapaPanel.setRuta(trayecto);
+                        mapaPanel.repaint();
                         //loadMapa(trayecto); //Falta implementacion
                     }
                 }
@@ -308,8 +313,8 @@ class myFrame extends JFrame {
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weighty = 1.0;
         constraints.weightx = 1.0;
-        constraints.insets = new Insets(10,10,10,10);
-        this.getContentPane().add(app.createComponents(),constraints);
+        constraints.insets = new Insets(10,0,0,50);
+        this.getContentPane().add(mapaPanel,constraints);
         
         //Panel origen
         
@@ -327,8 +332,8 @@ class myFrame extends JFrame {
         constraints.gridy = 0;
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
-        constraints.weighty = 1.0;
-        constraints.weightx = 0.5;
+        constraints.weighty = 1.0; //1
+        constraints.weightx = 0.5; //0.5
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.fill = GridBagConstraints.NONE;
         this.getContentPane().add(panelOrigen,constraints);

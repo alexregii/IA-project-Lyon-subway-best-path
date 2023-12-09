@@ -1,4 +1,57 @@
-package lector;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class lector {
+	public static void main(String[] args) {
+		try (BufferedReader br = new BufferedReader(new FileReader("Proyecto/src/auxiliar/horario.txt"))) {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("Horario2.txt"));
+            String line=br.readLine();
+            String horario[]=line.split(";");
+           
+            for(int i = 0; i<horario.length;i++){
+				bw.write(horario[i]+",");
+            }
+            bw.write("\n");
+            line=br.readLine();
+            horario=line.split(";");
+            for(int i = 0; i<horario.length;i++){
+            bw.write(horario[i]+",");
+            }
+			bw.write("\n");
+            line=br.readLine();
+
+            horario=line.split(";");
+            for(int i = 0; i<horario.length;i++){
+            bw.write(horario[i]+",");
+            }
+			bw.write("\n");
+            line=br.readLine();
+            
+            horario=line.split(";");
+            for(int i = 0; i<horario.length;i++){
+           bw.write(horario[i]+",");
+            }
+			bw.write("\n");
+			bw.close();
+            br.close();
+        } catch (NumberFormatException | IOException e) {
+            e.printStackTrace();
+        }
+	}
+	 
+}
+
+
+
+
+
+
+
+
+/*package lector;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -75,3 +128,4 @@ public class lector {
 	}
 }
 
+*/

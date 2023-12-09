@@ -9,7 +9,7 @@ public class MainGrafico {
         window.setResizable(false);
         window.setTitle("Mapa");
         
-        ArrayList<Integer> lista = new ArrayList();
+        ArrayList<Integer> lista = new ArrayList<Integer>();
         /* Ejemplo que toma una ruta:
         ** Croix-Paquet -- > Place Jean Jaures
         */

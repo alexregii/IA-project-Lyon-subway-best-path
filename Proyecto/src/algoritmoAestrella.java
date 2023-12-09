@@ -1,8 +1,17 @@
+package proyecto;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.IntStream;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -756,7 +765,7 @@ public class algoritmoAestrella{
 		//horarios
 
             
-        try (BufferedReader br = new BufferedReader(new FileReader("proyecto/src/auxiliar/horario.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("./src/auxiliar/horario.txt"))) {
             
             String line=br.readLine();
             String horario[]=line.split(";");
@@ -820,12 +829,13 @@ public class algoritmoAestrella{
 	}
     
     private static class MapaPanel extends JPanel {
-        private final int pantallaLargo = 1024;
-        private final int pantallaAncho = 1024;
+        private int pantallaLargo = 1024;
+        private int pantallaAncho = 1024;
         private ArrayList<Integer> trayecto;
         private Map<Integer, int[]> coordenadas;
         private Map<Integer, int[][]> conexiones;
         private String horaLlegada;
+        private double ratio = 1;
 
         public MapaPanel(ArrayList<Integer> ruta){
             this.coordenadas = new HashMap<Integer, int[]>();
@@ -840,15 +850,18 @@ public class algoritmoAestrella{
             inicializarcoordenadas();
         }
 
-        public MapaPanel(){
+        public MapaPanel(Dimension dimension){
             this.coordenadas = new HashMap<Integer, int[]>();
             this.conexiones = new HashMap<Integer, int[][]>();
             horaLlegada = "";
 
-            this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
             this.setBackground(Color.white);
             this.setDoubleBuffered(true);
-
+            this.ratio = dimension.getHeight()<dimension.getWidth() ? dimension.getHeight()/1024 : dimension.getWidth()/1024;
+            pantallaAncho*=ratio;
+            pantallaLargo*=ratio;
+            this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
+            
             inicializarcoordenadas();
         }
 
@@ -947,29 +960,29 @@ public class algoritmoAestrella{
             g.setColor(new Color(240,147,0));
             g.setStroke(new BasicStroke(7)); //Agranda las lineas que se dibujan
             for (int i = 1; i < 5; i++) {
-                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+                g.drawLine(ratioConv(conexiones.get(i)[0][0]), ratioConv(conexiones.get(i)[0][1]), ratioConv(conexiones.get(i)[1][0]), ratioConv(conexiones.get(i)[1][1]));
             }
             g.setColor(new Color(0, 148, 215));
             for (int i = 5; i < 14; i++) {
-                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+                g.drawLine(ratioConv(conexiones.get(i)[0][0]), ratioConv(conexiones.get(i)[0][1]), ratioConv(conexiones.get(i)[1][0]), ratioConv(conexiones.get(i)[1][1]));
             }
             g.setColor(new Color(224,0,26));
             for (int i = 14; i < 27; i++) {
-                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+                g.drawLine(ratioConv(conexiones.get(i)[0][0]), ratioConv(conexiones.get(i)[0][1]), ratioConv(conexiones.get(i)[1][0]), ratioConv(conexiones.get(i)[1][1]));
             }
             g.setColor(new Color(0,143,54));
             for (int i = 27; i < 41; i++) {
-                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+                g.drawLine(ratioConv(conexiones.get(i)[0][0]), ratioConv(conexiones.get(i)[0][1]), ratioConv(conexiones.get(i)[1][0]), ratioConv(conexiones.get(i)[1][1]));
             }
             g.setColor(Color.white);
             g.setStroke(new BasicStroke(2)); //Agranda las lineas que se dibujan
             for (int i = 1; i <= coordenadas.size(); i++){
-                g.fillOval(coordenadas.get(i)[0], coordenadas.get(i)[1], 20, 20);
+                g.fillOval(ratioConv(coordenadas.get(i)[0]), ratioConv(coordenadas.get(i)[1]), ratioConv(20), ratioConv(20));
             }        
             g.setColor(Color.black); //Color de lo que se quiere dibujar
             g.setStroke(new BasicStroke(2)); //Agranda las lineas que se dibujan
             for (int i = 1; i <= coordenadas.size(); i++){
-                g.drawOval(coordenadas.get(i)[0], coordenadas.get(i)[1], 20, 20);
+                g.drawOval(ratioConv(coordenadas.get(i)[0]), ratioConv(coordenadas.get(i)[1]), ratioConv(20), ratioConv(20));
             }
         }
 
@@ -979,13 +992,13 @@ public class algoritmoAestrella{
             ** en rojo se registra la parada destino.
             */
             g.setColor(Color.green);
-            g.fillOval(coordenadas.get(trayecto.get(0))[0]+1, coordenadas.get(trayecto.get(0))[1]+1, 19, 19);
+            g.fillOval(ratioConv(coordenadas.get(trayecto.get(0))[0]+1), ratioConv(coordenadas.get(trayecto.get(0))[1]+1), ratioConv(19), ratioConv(19));
             g.setColor(Color.CYAN);
             for (int i = 1; i < trayecto.size()-2; i++) {
-                g.fillOval(coordenadas.get(trayecto.get(i))[0]+1, coordenadas.get(trayecto.get(i))[1]+1, 19, 19);
+                g.fillOval(ratioConv(coordenadas.get(trayecto.get(i))[0]+1), ratioConv(coordenadas.get(trayecto.get(i))[1]+1), ratioConv(19), ratioConv(19));
             }
             g.setColor(Color.red);
-            g.fillOval(coordenadas.get(trayecto.get(trayecto.size()-2))[0]+1, coordenadas.get(trayecto.get(trayecto.size()-2))[1]+1, 19, 19);
+            g.fillOval(ratioConv(coordenadas.get(trayecto.get(trayecto.size()-2))[0]+1), ratioConv(coordenadas.get(trayecto.get(trayecto.size()-2))[1]+1), ratioConv(19), ratioConv(19));
         }
 
         public void setHoraLlegada(int hora) {
@@ -1007,9 +1020,20 @@ public class algoritmoAestrella{
             if (trayecto != null) {
         	registrarParadas(g2);
                 g.setColor(Color.black);
-                g.setFont(g.getFont().deriveFont(30.0f));
-                g.drawString("Hora de llegada: " + horaLlegada, 710, 30);
+                g.setFont(g.getFont().deriveFont(30.0f * Float.parseFloat(String.valueOf(this.ratio))));
+                g.drawString("Hora de llegada: " + horaLlegada, ratioConv(710), ratioConv(30));
             }
+        }
+        
+        public void setDimension(Dimension dimension){
+            this.ratio = dimension.getHeight()<dimension.getWidth() ? dimension.getHeight()/1024 : dimension.getWidth()/1024;
+            pantallaAncho*=ratio;
+            pantallaLargo*=ratio;
+            this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
+        }
+        
+        public int ratioConv(int valor){
+            return (int) Math.round((valor * this.ratio));
         }
     }
     
@@ -1037,7 +1061,7 @@ public class algoritmoAestrella{
         private JPanel panelDestino = new JPanel(new BorderLayout(10,10));
         private JPanel panelSeleccionDestino = new JPanel();
 
-        private MapaPanel mapaPanel = new MapaPanel();
+        private MapaPanel mapaPanel;
 
         //Combos y panel para hora
         private JComboBox<Integer> comboHora;
@@ -1050,6 +1074,7 @@ public class algoritmoAestrella{
 
         int codOrigen = -1;
         int codDestino = -1;
+        
 
         ArrayList<Integer> trayecto = new ArrayList<>();
 
@@ -1064,11 +1089,14 @@ public class algoritmoAestrella{
              * Con la relacion 2:3 la parte derecha es cuadrada.
              */
 
-            this.width = myToolkit.getScreenSize().width*9/8;
+            this.width = myToolkit.getScreenSize().height*9/8;
             this.height = myToolkit.getScreenSize().height*3/4;
 
             this.x = (myToolkit.getScreenSize().width-this.width)/2;
             this.y = (myToolkit.getScreenSize().height-this.height)/2;
+            
+            this.mapaPanel = new MapaPanel(new Dimension(this.width/2,this.height));
+                     
             this.comboLineaOrigen = new JComboBox(new String[]{" ","A","B","C","D"});
             this.comboLineaDestino = new JComboBox(new String[]{" ","A","B","C","D"});
             comboEstacionesOrigen = new JComboBox(new String[]{"Seleccione una linea"});
@@ -1164,13 +1192,7 @@ public class algoritmoAestrella{
             }
         }
 
-        public static void loadMapa(ArrayList<Integer> trayecto){
-            //code
-        }
-
-
         public void inicializar(){
-
             this.setBounds(this.x,this.y,this.width,this.height);
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setResizable(true);
@@ -1294,7 +1316,7 @@ public class algoritmoAestrella{
             constraints.gridwidth = 1;
             constraints.gridheight = 1;
             constraints.weighty = 1.0; //1
-            constraints.weightx = 0.5; //0.5
+            constraints.weightx = 0; //0.5
             constraints.anchor = GridBagConstraints.CENTER;
             constraints.fill = GridBagConstraints.NONE;
             constraints.insets = new Insets(10,10,10,10);
@@ -1348,6 +1370,28 @@ public class algoritmoAestrella{
             constraints.weighty = 0;
             this.getContentPane().add(buscar,constraints);
 
+            this.addComponentListener(new ComponentAdapter() {
+                boolean timerIsRunning = false;
+                Timer myTimer;
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    //System.out.println("enter " + timerIsRunning);
+                    if(!timerIsRunning){
+                        timerIsRunning = true;
+                        myTimer = new Timer(20,new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent ae){
+                                mapaPanel.setDimension(new Dimension((int) e.getComponent().getSize().getWidth()/2, (int) e.getComponent().getSize().getHeight()));
+                                mapaPanel.repaint();
+                                myTimer.stop();
+                                timerIsRunning = false;
+                            }
+                        });
+                        myTimer.start();
+                    }
+                }
+              });            
+            
             //Espacio al final
             /*JLabel espacio = new JLabel(" ");
 
@@ -1373,7 +1417,6 @@ public class algoritmoAestrella{
             constraints.weightx = 1;
             constraints.weighty = 0.05;
             this.getContentPane().add(espacio1,constraints);*/
-
         }
     }
     
@@ -1415,9 +1458,9 @@ public class algoritmoAestrella{
             else
                 System.out.printf("%02d:%02d, ", horarioGaredeVaise.get(i)/60, horarioGaredeVaise.get(i)%60);
         }
-        */
+        
         System.out.println(Aestrella(15,3,23*60+59));
 
-        
+        */
     }
 }

@@ -95,7 +95,7 @@ public class algoritmoAestrella{
             //10 saxo gambetta
             //25 Bellecour
             
-            if(estacion1 != 5 & estacion1 != 6 && estacion1 != 25){
+            if(estacion1 != 5 && estacion1 != 6 && estacion1 != 25){
                 return tiemposA.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
             }
             
@@ -115,7 +115,7 @@ public class algoritmoAestrella{
             int estacionEfectiva = Math.max(convLinea1, convLinea2); //Para que sea más fácil calcular los tiempos con la estructura de datos
             //Se supone que se tarda lo mismo en ir de A a B que de B a A
             
-            if(estacion1 != 6 || estacion1 != 10 ){
+            if(estacion1 != 6 && estacion1 != 10 ){
                 return tiemposB.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
             }
 

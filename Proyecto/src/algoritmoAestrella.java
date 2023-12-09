@@ -1,14 +1,11 @@
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.*;
+import java.util.stream.IntStream;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 /* FUNCIONAMIENTO A*
  * Vamos a tener todas las estaciones asociadas a un int (podremos sacar luego su nombre de un hashmap)
@@ -832,9 +829,574 @@ public class algoritmoAestrella{
 
 
 	}
+    
+    private static class MapaPanel extends JPanel {
+        private final int pantallaLargo = 1024;
+        private final int pantallaAncho = 1024;
+        private ArrayList<Integer> trayecto;
+        private Map<Integer, int[]> coordenadas;
+        private Map<Integer, int[][]> conexiones;
+        private String horaLlegada;
+
+        public MapaPanel(ArrayList<Integer> ruta){
+            this.coordenadas = new HashMap();
+            this.conexiones = new HashMap();
+            this.trayecto = ruta;
+            horaLlegada = "";
+
+            this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
+            this.setBackground(Color.white);
+            this.setDoubleBuffered(true);
+
+            inicializarcoordenadas();
+        }
+
+        public MapaPanel(){
+            this.coordenadas = new HashMap();
+            this.conexiones = new HashMap();
+            horaLlegada = "";
+
+            this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
+            this.setBackground(Color.white);
+            this.setDoubleBuffered(true);
+
+            inicializarcoordenadas();
+        }
+
+        public void setRuta (ArrayList<Integer> ruta) {
+            trayecto = ruta;
+        }
+
+        private void inicializarcoordenadas() {
+            //Estaciones con sus coordenadas en el JPanel
+            coordenadas.put(1, new int[]{310, 45}); //Cuire
+            coordenadas.put(2, new int[]{270, 130}); //Henon
+            coordenadas.put(3, new int[]{300, 170}); //Croix-Rousse
+            coordenadas.put(4, new int[]{330, 205}); //Croix Paquet
+            coordenadas.put(5, new int[]{335, 250}); //Hotel de Ville
+            coordenadas.put(6, new int[]{515, 220}); //Charpennes
+            coordenadas.put(7, new int[]{505, 255}); //Brotteaux
+            coordenadas.put(8, new int[]{485, 305}); //Gare Part-Dieu
+            coordenadas.put(9, new int[]{420, 335}); //Place Guichard
+            coordenadas.put(10, new int[]{415, 390}); //Saxe Gambetta
+            coordenadas.put(11, new int[]{380, 480}); //Jean Mace
+            coordenadas.put(12, new int[]{355, 545}); //Place Jean Jaures
+            coordenadas.put(13, new int[]{315, 630}); //Debourg
+            coordenadas.put(14, new int[]{295, 680}); //Stade de Gerland
+            coordenadas.put(15, new int[]{180, 785}); //Gare d'Oullins
+            coordenadas.put(16, new int[]{965, 305}); //Vaulx-en-Velin
+            coordenadas.put(17, new int[]{860, 280}); //Laurent Bonnevay
+            coordenadas.put(18, new int[]{790, 265}); //Cusset
+            coordenadas.put(19, new int[]{720, 245}); //Flachet
+            coordenadas.put(20, new int[]{655, 225}); //Gratte Ciel
+            coordenadas.put(21, new int[]{605, 215}); //Republique Villeurbanne
+            coordenadas.put(22, new int[]{465, 225}); //Massena
+            coordenadas.put(23, new int[]{405, 235}); //Foch
+            coordenadas.put(24, new int[]{335, 290}); //Cordeliers
+            coordenadas.put(25, new int[]{310, 355}); //Bellecour
+            coordenadas.put(26, new int[]{280, 400}); //Ampere-Victor Hugo
+            coordenadas.put(27, new int[]{265, 440}); //Perrache
+            coordenadas.put(28, new int[]{715, 885}); //Gare de Venissieux
+            coordenadas.put(29, new int[]{710, 735}); //Parilly
+            coordenadas.put(30, new int[]{705, 650}); //Mermoz-Pinel
+            coordenadas.put(31, new int[]{690, 540}); //Laennec
+            coordenadas.put(32, new int[]{650, 510}); //Grange Blanche
+            coordenadas.put(33, new int[]{590, 480}); //Monplaisir Lumiere
+            coordenadas.put(34, new int[]{545, 455}); //Sans Souci
+            coordenadas.put(35, new int[]{475, 420}); //Garibaldi
+            coordenadas.put(36, new int[]{385, 375}); //Guillotiere Gabriel Peri
+            coordenadas.put(37, new int[]{260, 320}); //Vieux Lyon
+            coordenadas.put(38, new int[]{110, 255}); //Gorge de Loup
+            coordenadas.put(39, new int[]{110, 170}); //Valmy
+            coordenadas.put(40, new int[]{105, 110}); //Gare de Vaise
+
+            //Lineas que crean conexiones entre los puntos (paradas)
+            conexiones.put(1, new int[][]{{coordenadas.get(1)[0]+6,coordenadas.get(1)[1]+19}, {coordenadas.get(2)[0]+16,coordenadas.get(2)[1]+2}});
+            conexiones.put(2, new int[][]{{coordenadas.get(2)[0]+17,coordenadas.get(2)[1]+18}, {coordenadas.get(3)[0]+5,coordenadas.get(3)[1]+2}});
+            conexiones.put(3, new int[][]{{coordenadas.get(3)[0]+17,coordenadas.get(3)[1]+18}, {coordenadas.get(4)[0]+5,coordenadas.get(4)[1]+2}});
+            conexiones.put(4, new int[][]{{coordenadas.get(4)[0]+12,coordenadas.get(4)[1]+20}, {coordenadas.get(5)[0]+10,coordenadas.get(5)[1]}});
+            conexiones.put(5, new int[][]{{coordenadas.get(6)[0]+10,coordenadas.get(6)[1]+20}, {coordenadas.get(7)[0]+14,coordenadas.get(7)[1]+1}});
+            conexiones.put(6, new int[][]{{coordenadas.get(7)[0]+7,coordenadas.get(7)[1]+19}, {coordenadas.get(8)[0]+14,coordenadas.get(8)[1]+1}});
+            conexiones.put(7, new int[][]{{coordenadas.get(8)[0]+3,coordenadas.get(8)[1]+16}, {coordenadas.get(9)[0]+19,coordenadas.get(9)[1]+4}});
+            conexiones.put(8, new int[][]{{coordenadas.get(9)[0]+10,coordenadas.get(9)[1]+20}, {coordenadas.get(10)[0]+14,coordenadas.get(10)[1]}});
+            conexiones.put(9, new int[][]{{coordenadas.get(10)[0]+7,coordenadas.get(10)[1]+19}, {coordenadas.get(11)[0]+14,coordenadas.get(11)[1]}});
+            conexiones.put(10, new int[][]{{coordenadas.get(11)[0]+7,coordenadas.get(11)[1]+19}, {coordenadas.get(12)[0]+14,coordenadas.get(12)[1]}});
+            conexiones.put(11, new int[][]{{coordenadas.get(12)[0]+7,coordenadas.get(12)[1]+19}, {coordenadas.get(13)[0]+14,coordenadas.get(13)[1]}});
+            conexiones.put(12, new int[][]{{coordenadas.get(13)[0]+7,coordenadas.get(13)[1]+19}, {coordenadas.get(14)[0]+14,coordenadas.get(14)[1]}});
+            conexiones.put(13, new int[][]{{coordenadas.get(14)[0]+3,coordenadas.get(14)[1]+17}, {coordenadas.get(15)[0]+17,coordenadas.get(15)[1]+3}});
+            conexiones.put(14, new int[][]{{coordenadas.get(16)[0],coordenadas.get(16)[1]+10}, {coordenadas.get(17)[0]+20,coordenadas.get(17)[1]+12}});
+            conexiones.put(15, new int[][]{{coordenadas.get(17)[0],coordenadas.get(17)[1]+8}, {coordenadas.get(18)[0]+19,coordenadas.get(18)[1]+12}});
+            conexiones.put(16, new int[][]{{coordenadas.get(18)[0],coordenadas.get(18)[1]+8}, {coordenadas.get(19)[0]+20,coordenadas.get(19)[1]+12}});
+            conexiones.put(17, new int[][]{{coordenadas.get(19)[0],coordenadas.get(19)[1]+8}, {coordenadas.get(20)[0]+20,coordenadas.get(20)[1]+13}});
+            conexiones.put(18, new int[][]{{coordenadas.get(20)[0],coordenadas.get(20)[1]+10}, {coordenadas.get(21)[0]+19,coordenadas.get(21)[1]+13}});
+            conexiones.put(19, new int[][]{{coordenadas.get(21)[0],coordenadas.get(21)[1]+11}, {coordenadas.get(6)[0]+20,coordenadas.get(6)[1]+8}});
+            conexiones.put(20, new int[][]{{coordenadas.get(6)[0],coordenadas.get(6)[1]+11}, {coordenadas.get(22)[0]+20,coordenadas.get(22)[1]+9}});
+            conexiones.put(21, new int[][]{{coordenadas.get(22)[0],coordenadas.get(22)[1]+12}, {coordenadas.get(23)[0]+20,coordenadas.get(23)[1]+8}});
+            conexiones.put(22, new int[][]{{coordenadas.get(23)[0],coordenadas.get(23)[1]+10}, {coordenadas.get(5)[0]+20,coordenadas.get(5)[1]+6}});
+            conexiones.put(23, new int[][]{{coordenadas.get(5)[0]+10,coordenadas.get(5)[1]+20}, {coordenadas.get(24)[0]+10,coordenadas.get(24)[1]}});
+            conexiones.put(24, new int[][]{{coordenadas.get(24)[0]+7,coordenadas.get(24)[1]+19}, {coordenadas.get(25)[0]+17,coordenadas.get(25)[1]+2}});
+            conexiones.put(25, new int[][]{{coordenadas.get(25)[0]+6,coordenadas.get(25)[1]+19}, {coordenadas.get(26)[0]+17,coordenadas.get(26)[1]+2}});
+            conexiones.put(26, new int[][]{{coordenadas.get(26)[0]+7,coordenadas.get(26)[1]+20}, {coordenadas.get(27)[0]+15,coordenadas.get(27)[1]+2}});
+            conexiones.put(27, new int[][]{{coordenadas.get(28)[0]+9,coordenadas.get(28)[1]}, {coordenadas.get(29)[0]+12,coordenadas.get(29)[1]+19}});
+            conexiones.put(28, new int[][]{{coordenadas.get(29)[0]+10,coordenadas.get(29)[1]+2}, {coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+20}});
+            conexiones.put(29, new int[][]{{coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+7}, {coordenadas.get(31)[0]+12,coordenadas.get(31)[1]+18}});
+            conexiones.put(30, new int[][]{{coordenadas.get(31)[0]+1,coordenadas.get(31)[1]+6}, {coordenadas.get(32)[0]+17,coordenadas.get(32)[1]+17}});
+            conexiones.put(31, new int[][]{{coordenadas.get(32)[0]+1,coordenadas.get(32)[1]+6}, {coordenadas.get(33)[0]+19,coordenadas.get(33)[1]+13}});
+            conexiones.put(32, new int[][]{{coordenadas.get(33)[0]+1,coordenadas.get(33)[1]+6}, {coordenadas.get(34)[0]+19,coordenadas.get(34)[1]+15}});
+            conexiones.put(33, new int[][]{{coordenadas.get(34)[0]+1,coordenadas.get(34)[1]+6}, {coordenadas.get(35)[0]+17,coordenadas.get(35)[1]+16}});
+            conexiones.put(34, new int[][]{{coordenadas.get(35)[0]+1,coordenadas.get(35)[1]+6}, {coordenadas.get(10)[0]+19,coordenadas.get(10)[1]+14}});
+            conexiones.put(35, new int[][]{{coordenadas.get(10)[0]+1,coordenadas.get(10)[1]+6}, {coordenadas.get(36)[0]+19,coordenadas.get(36)[1]+16}});
+            conexiones.put(36, new int[][]{{coordenadas.get(36)[0],coordenadas.get(36)[1]+8}, {coordenadas.get(25)[0]+20,coordenadas.get(25)[1]+12}});
+            conexiones.put(37, new int[][]{{coordenadas.get(25)[0]+1,coordenadas.get(25)[1]+5}, {coordenadas.get(37)[0]+17,coordenadas.get(37)[1]+17}});
+            conexiones.put(38, new int[][]{{coordenadas.get(37)[0]+1,coordenadas.get(37)[1]+6}, {coordenadas.get(38)[0]+17,coordenadas.get(38)[1]+17}});
+            conexiones.put(39, new int[][]{{coordenadas.get(38)[0]+8,coordenadas.get(38)[1]}, {coordenadas.get(39)[0]+10,coordenadas.get(39)[1]+20}});
+            conexiones.put(40, new int[][]{{coordenadas.get(39)[0]+9,coordenadas.get(39)[1]+1}, {coordenadas.get(40)[0]+12,coordenadas.get(40)[1]+20}});
+            }
+
+        private void creacionMapa(Graphics2D g) {
+            //Funcion que dibuja el mapa
+            g.setColor(new Color(240,147,0));
+            g.setStroke(new BasicStroke(7)); //Agranda las lineas que se dibujan
+            for (int i = 1; i < 5; i++) {
+                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+            }
+            g.setColor(new Color(0, 148, 215));
+            for (int i = 5; i < 14; i++) {
+                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+            }
+            g.setColor(new Color(224,0,26));
+            for (int i = 14; i < 27; i++) {
+                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+            }
+            g.setColor(new Color(0,143,54));
+            for (int i = 27; i < 41; i++) {
+                g.drawLine(conexiones.get(i)[0][0], conexiones.get(i)[0][1], conexiones.get(i)[1][0], conexiones.get(i)[1][1]);
+            }
+            g.setColor(Color.white);
+            g.setStroke(new BasicStroke(2)); //Agranda las lineas que se dibujan
+            for (int i = 1; i <= coordenadas.size(); i++){
+                g.fillOval(coordenadas.get(i)[0], coordenadas.get(i)[1], 20, 20);
+            }        
+            g.setColor(Color.black); //Color de lo que se quiere dibujar
+            g.setStroke(new BasicStroke(2)); //Agranda las lineas que se dibujan
+            for (int i = 1; i <= coordenadas.size(); i++){
+                g.drawOval(coordenadas.get(i)[0], coordenadas.get(i)[1], 20, 20);
+            }
+        }
+
+        private void registrarParadas(Graphics2D g) {
+            /* Funcion que registra las paradas con colores.
+            ** En verde registra el inicio, en cyan las intermedias y
+            ** en rojo se registra la parada destino.
+            */
+            g.setColor(Color.green);
+            g.fillOval(coordenadas.get(trayecto.get(0))[0]+1, coordenadas.get(trayecto.get(0))[1]+1, 19, 19);
+            g.setColor(Color.CYAN);
+            for (int i = 1; i < trayecto.size()-2; i++) {
+                g.fillOval(coordenadas.get(trayecto.get(i))[0]+1, coordenadas.get(trayecto.get(i))[1]+1, 19, 19);
+            }
+            g.setColor(Color.red);
+            g.fillOval(coordenadas.get(trayecto.get(trayecto.size()-2))[0]+1, coordenadas.get(trayecto.get(trayecto.size()-2))[1]+1, 19, 19);
+        }
+
+        public void setHoraLlegada(int hora) {
+            int horaEstacion = hora + trayecto.get(trayecto.size()-1);
+            if ((horaEstacion%60) < 10)
+                horaLlegada = horaEstacion/60 + ":0" + horaEstacion%60;
+            else
+                horaLlegada = horaEstacion/60 + ":" + horaEstacion%60;
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            //Codigo a mejorar
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D)g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+            creacionMapa(g2);
+            if (trayecto != null) {
+        	registrarParadas(g2);
+                g.setColor(Color.black);
+                g.setFont(g.getFont().deriveFont(30.0f));
+                g.drawString("Hora de llegada: " + horaLlegada, 710, 30);
+            }
+        }
+    }
+    
+    private static class Pantalla extends JFrame {
+    
+	
+        private final String title;
+        private Toolkit myToolkit;
+        private final int width;
+        private final int height;
+        private int x;
+        private int y;
+
+        //Parametro busqueda
+        private int hora;
+
+        //Combos y paneles para origen y destino
+        private static JComboBox<String> comboLineaOrigen;
+        private static JComboBox<String> comboLineaDestino;
+        private static JComboBox<String> comboEstacionesOrigen;
+        private static JComboBox<String> comboEstacionesDestino;
+
+        private JPanel panelOrigen = new JPanel(new BorderLayout(10,10));
+        private JPanel panelSeleccionOrigen = new JPanel();
+        private JPanel panelDestino = new JPanel(new BorderLayout(10,10));
+        private JPanel panelSeleccionDestino = new JPanel();
+
+        private MapaPanel mapaPanel = new MapaPanel();
+
+        //Combos y panel para hora
+        private JComboBox<Integer> comboHora;
+        private JComboBox<Integer> comboMinuto;
+
+        private JPanel panelHora = new JPanel(new BorderLayout(10,10));
+        private JPanel panelSeleccionHora = new JPanel();
+
+        private JButton buscar;
+
+        int codOrigen = -1;
+        int codDestino = -1;
+
+        ArrayList<Integer> trayecto = new ArrayList<>();
+
+        public Pantalla(String title){
+            this.myToolkit = Toolkit.getDefaultToolkit();
+            this.title = title;
+
+            /*
+             * se busca relacion 2:3 entre ancho y alto para dividir horizontalmente
+             * en 2 partes con la de la derecha el doble de ancho que la de la izquierda.
+             * La parte izquierda para meter parametros y la derecha para el mapa.
+             * Con la relacion 2:3 la parte derecha es cuadrada.
+             */
+
+            this.width = myToolkit.getScreenSize().width*9/8;
+            this.height = myToolkit.getScreenSize().height*3/4;
+
+            this.x = (myToolkit.getScreenSize().width-this.width)/2;
+            this.y = (myToolkit.getScreenSize().height-this.height)/2;
+            this.comboLineaOrigen = new JComboBox(new String[]{" ","A","B","C","D"});
+            this.comboLineaDestino = new JComboBox(new String[]{" ","A","B","C","D"});
+            comboEstacionesOrigen = new JComboBox(new String[]{"Seleccione una linea"});
+            comboEstacionesDestino = new JComboBox(new String[]{"Seleccione una linea"});
+
+            comboLineaOrigen.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    loadCombo(comboEstacionesOrigen, comboLineaOrigen.getSelectedIndex());
+                }
+            });
+            comboLineaDestino.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    loadCombo(comboEstacionesDestino, comboLineaDestino.getSelectedIndex());
+                }
+            });
+
+            comboHora = new JComboBox<>();
+            comboMinuto = new JComboBox<>();       
+            IntStream enterosHora = IntStream.range(0,24);
+            IntStream enterosMinuto = IntStream.range(0,60);        
+            enterosHora.forEachOrdered(num -> comboHora.addItem(num));
+            enterosMinuto.forEachOrdered(num -> comboMinuto.addItem(num));
+            comboHora.setEditable(true);
+            comboMinuto.setEditable(true);        
+
+            buscar = new JButton("Buscar");
+            buscar.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    String seleccionOrigen = (String) comboEstacionesOrigen.getSelectedItem();
+                    String seleccionDestino = (String) comboEstacionesDestino.getSelectedItem();
+                    if(seleccionOrigen.equals("Seleccione una linea")||seleccionDestino.equals("Seleccione una linea")){
+                        JOptionPane.showMessageDialog(null, "Seleccione una estacion valida");
+                    }else if(seleccionOrigen.equals(seleccionDestino)){
+                        JOptionPane.showMessageDialog(null, "El origen y destino son el mismo");
+                    }else{
+                        boolean horaValida = false;
+                        try{
+                            int selHora = Integer.parseInt(String.valueOf(comboHora.getSelectedItem()));
+                            int selMinuto = Integer.parseInt(String.valueOf(comboMinuto.getSelectedItem()));
+                            if(selHora <0 || selHora > 23 || selMinuto <0 || selMinuto > 59)
+                                JOptionPane.showMessageDialog(null, "Seleccione una hora valida");
+                            else horaValida = true;
+                        }catch(Exception e){
+                            JOptionPane.showMessageDialog(null, "Seleccione una hora valida");
+                            return;
+                        }
+                        if(horaValida){
+                            hora = 60*((int)comboHora.getSelectedItem())+((int)comboMinuto.getSelectedItem());
+                            codEstacion.forEach((cod,estacion)->{
+                                    if(codOrigen==-1||seleccionOrigen.equals(estacion))
+                                        codOrigen = cod;
+                                    else if(codDestino==-1||seleccionDestino.equals(estacion))
+                                        codDestino = cod;
+                                        });
+                            trayecto = Aestrella(codOrigen, codDestino, hora);
+                            mapaPanel.setRuta(trayecto);
+                            mapaPanel.setHoraLlegada(hora);
+                            mapaPanel.repaint();
+                        }
+                    }
+
+                }
+            });
+        }
+
+        public static void loadCombo(JComboBox<String> combo, int linea){
+
+            combo.removeAllItems();
+            switch(linea){
+                case 0: //blank
+                    combo.addItem("Seleccione una linea");
+                    break;
+                case 1: //linea A
+                    estacionesLineaA.forEach(idEstacion -> {
+                        combo.addItem(codEstacion.get(idEstacion));
+                    });
+                    break;
+                case 2: //linea B
+                    estacionesLineaB.forEach(idEstacion -> {
+                        combo.addItem(codEstacion.get(idEstacion));
+                    });
+                    break;
+                case 3://linea C
+                    estacionesLineaC.forEach(idEstacion -> {
+                        combo.addItem(codEstacion.get(idEstacion));
+                    });
+                    break;
+                case 4: //linea D
+                    estacionesLineaD.forEach(idEstacion -> {
+                        combo.addItem(codEstacion.get(idEstacion));
+                    });
+                    break;
+            }
+        }
+
+        public static void loadMapa(ArrayList<Integer> trayecto){
+            //code
+        }
+
+
+        public void inicializar(){
+
+            this.setBounds(this.x,this.y,this.width,this.height);
+            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            this.setResizable(true);
+            //this.setExtended...
+            this.setTitle(title);
+            this.getContentPane().setLayout(new GridBagLayout());
+
+            GridBagConstraints constraints = new GridBagConstraints();
+
+
+            //Layout origen, destino y hora
+            //Origen
+            JLabel lineaLabelOrigen = new JLabel("Linea: ");
+            JLabel estacionLabelOrigen = new JLabel("Estacion: ");
+
+            GroupLayout layoutOrigen = new GroupLayout(panelSeleccionOrigen);
+            layoutOrigen.setAutoCreateContainerGaps(true);
+            layoutOrigen.setAutoCreateGaps(true);
+
+            layoutOrigen.setHorizontalGroup(
+                layoutOrigen.createSequentialGroup()
+                    .addGroup(layoutOrigen.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(lineaLabelOrigen)
+                        .addComponent(comboLineaOrigen)).addGap(20)
+                    .addGroup(layoutOrigen.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(estacionLabelOrigen)
+                        .addComponent(comboEstacionesOrigen))
+            );
+
+            layoutOrigen.setVerticalGroup(
+                layoutOrigen.createSequentialGroup()
+                    .addGroup(layoutOrigen.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addComponent(lineaLabelOrigen)
+                             .addComponent(estacionLabelOrigen))
+                    .addGroup(layoutOrigen.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(comboLineaOrigen)
+                            .addComponent(comboEstacionesOrigen))
+            );
+            panelSeleccionOrigen.setLayout(layoutOrigen);
+
+            //Destino
+            JLabel lineaLabelDestino = new JLabel("Linea: ");
+            JLabel estacionLabelDestino = new JLabel("Estacion: ");
+
+            GroupLayout layoutDestino = new GroupLayout(panelSeleccionDestino);
+            layoutDestino.setAutoCreateContainerGaps(true);
+            layoutDestino.setAutoCreateGaps(true);
+
+            layoutDestino.setHorizontalGroup(
+                layoutDestino.createSequentialGroup()
+                    .addGroup(layoutDestino.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(lineaLabelDestino)
+                        .addComponent(comboLineaDestino)).addGap(20)
+                    .addGroup(layoutDestino.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(estacionLabelDestino)
+                        .addComponent(comboEstacionesDestino))
+            );
+
+            layoutDestino.setVerticalGroup(
+                layoutDestino.createSequentialGroup()
+                    .addGroup(layoutDestino.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addComponent(lineaLabelDestino)
+                             .addComponent(estacionLabelDestino))
+                    .addGroup(layoutDestino.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(comboLineaDestino)
+                            .addComponent(comboEstacionesDestino))
+            );
+            panelSeleccionDestino.setLayout(layoutDestino);
+
+            //Hora      
+            GroupLayout layoutHora = new GroupLayout(panelSeleccionHora);
+            layoutHora.setAutoCreateContainerGaps(true);
+            layoutHora.setAutoCreateGaps(true);
+            JLabel separador = new JLabel(":");
+            layoutHora.setHorizontalGroup(
+                layoutHora.createSequentialGroup()
+                        .addComponent(comboHora).addGap(10)
+                        .addComponent(separador).addGap(10)
+                        .addComponent(comboMinuto)
+            );
+
+            layoutHora.setVerticalGroup(
+                layoutHora.createSequentialGroup()
+                    .addGroup(layoutHora.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(comboHora).addGap(10)
+                            .addComponent(separador).addGap(10)
+                            .addComponent(comboMinuto))
+            );
+            panelSeleccionHora.setLayout(layoutHora);
+
+            /*
+             *  Layout del Frame principal
+             */
+            
+            //El panel mapa empieza en 1,0 y ocupa 3 filas y 2 columnas
+            constraints.gridx = 1;
+            constraints.gridy = 0;
+            constraints.gridwidth = 3;
+            constraints.gridheight = 4;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.weighty = 1.0;
+            constraints.weightx = 1.0;
+            constraints.insets = new Insets(10,10,10,50);
+            this.getContentPane().add(mapaPanel,constraints);
+
+            //Panel origen
+
+            JLabel origenLabel = new JLabel("Origen");
+            origenLabel.setVerticalAlignment(SwingConstants.CENTER);
+            origenLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            origenLabel.setFont(new Font("Dialog",Font.BOLD,18));
+
+            panelOrigen.add(origenLabel,BorderLayout.PAGE_START);
+            panelOrigen.add(panelSeleccionOrigen,BorderLayout.CENTER);
+            Border bordeOrigen = BorderFactory.createLineBorder(Color.black);
+            panelOrigen.setBorder(bordeOrigen);
+            //El panel origen empieza en 0,0 y ocupa una fila y columna
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.gridwidth = 1;
+            constraints.gridheight = 1;
+            constraints.weighty = 1.0; //1
+            constraints.weightx = 0.5; //0.5
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.fill = GridBagConstraints.NONE;
+            constraints.insets = new Insets(10,10,10,10);
+            this.getContentPane().add(panelOrigen,constraints);
+
+            //Panel Destino
+
+            JLabel destinoLabel = new JLabel("Destino");
+            destinoLabel.setVerticalAlignment(SwingConstants.CENTER);
+            destinoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            destinoLabel.setFont(new Font("Dialog",Font.BOLD,18));
+
+            panelDestino.add(destinoLabel,BorderLayout.PAGE_START);
+            panelDestino.add(panelSeleccionDestino,BorderLayout.CENTER);
+            Border bordeDestino = BorderFactory.createLineBorder(Color.black);
+            panelHora.setBorder(bordeDestino);
+            //El panel destino empieza en 0,1 y ocupa una fila y columna
+            constraints.gridx = 0;
+            constraints.gridy = 1;
+            constraints.gridwidth = 1;
+            constraints.gridheight = 1;
+            this.getContentPane().add(panelDestino,constraints);
+
+            //Panel hora
+
+            JLabel horaLabel = new JLabel("Hora: (hh:mm)");
+            horaLabel.setVerticalAlignment(SwingConstants.CENTER);
+            horaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            horaLabel.setFont(new Font("Dialog",Font.BOLD,18));
+
+            panelHora.add(horaLabel,BorderLayout.PAGE_START);
+            panelHora.add(panelSeleccionHora,BorderLayout.CENTER);
+            Border bordeHora = BorderFactory.createLineBorder(Color.black);
+            panelDestino.setBorder(bordeHora);
+            //El panel otherParam empieza en 0,2 y ocupa una fila y columna
+            constraints.gridx = 0;
+            constraints.gridy = 2;
+            constraints.gridwidth = 1;
+            constraints.gridheight = 1;
+            this.getContentPane().add(panelHora,constraints);
+
+            //Panel buscar
+
+            constraints.gridx = 0;
+            constraints.gridy = 3;
+            constraints.gridwidth = 1;
+            constraints.gridheight = 1;
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 0;
+            constraints.weighty = 0;
+            this.getContentPane().add(buscar,constraints);
+
+            //Espacio al final
+            /*JLabel espacio = new JLabel(" ");
+
+            constraints.gridx = 0;
+            constraints.gridy = 4;
+            constraints.gridwidth = 3;
+            constraints.gridheight = 1;
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 0;
+            constraints.weighty = 0.05;
+            this.getContentPane().add(espacio,constraints);
+
+            //esapcio a la derecha del boton
+            JLabel espacio1 = new JLabel(" ");
+
+            constraints.gridx = 2;
+            constraints.gridy = 3;
+            constraints.gridwidth = 1;
+            constraints.gridheight = 1;
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 1;
+            constraints.weighty = 0.05;
+            this.getContentPane().add(espacio1,constraints);*/
+
+        }
+    }
+    
+    
 
     public static void main(String[] args) {
         inicializa();
+        Pantalla ventana = new Pantalla("Buscador metro Lyon");
+        ventana.inicializar();
+        ventana.pack();
+        
+        ventana.setVisible(true);
         /* 
         System.out.println(" ----------------------------- \nLINEA A \n-----------------------------");
         for (int i = 0; i < horarioPerrache.size(); i++) {

@@ -75,9 +75,7 @@ public class algoritmoAestrella{
 
             int convLinea1 = conversionALinea(estacion1, "A");
             int convLinea2 = conversionALinea(estacion2, "A");
-
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
-            
             // 5  Hotel de ville
             //6 Charpennes
             //10 saxo gambetta
@@ -100,10 +98,8 @@ public class algoritmoAestrella{
 
             int convLinea1 = conversionALinea(estacion1, "B");
             int convLinea2 = conversionALinea(estacion2, "B");
-
             int estacionEfectiva = Math.max(convLinea1, convLinea2); //Para que sea más fácil calcular los tiempos con la estructura de datos
             //Se supone que se tarda lo mismo en ir de A a B que de B a A
-          
             
             if(estacion1 != 6 || estacion1 != 10 ){
                 return tiemposB.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
@@ -111,7 +107,6 @@ public class algoritmoAestrella{
 
             while(retraso < 100000){ //debería pararse antes
                 if(horariosLineaB.get(estacion1 == 6 ? 1 : 0).contains(horaActual+retraso)){
-                
                     return tiemposB.get(estacionEfectiva)[0]+retraso;
                 
                  }else retraso++;
@@ -123,16 +118,13 @@ public class algoritmoAestrella{
 
             int convLinea1 = conversionALinea(estacion1, "C");
             int convLinea2 = conversionALinea(estacion2, "C");
-
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
-          
             if(estacion1 != 5){
                 return tiemposC.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
             }
             
             while(retraso < 100000){ //debería pararse antes
                 if(horariosLineaC.get(0).contains(horaActual+retraso)){
-                
                     return tiemposC.get(estacionEfectiva)[0]+retraso;
                 
                  }else retraso++;
@@ -144,16 +136,13 @@ public class algoritmoAestrella{
 
             int convLinea1 = conversionALinea(estacion1, "D");
             int convLinea2 = conversionALinea(estacion2, "D");
-
             int estacionEfectiva = Math.max(convLinea1, convLinea2);
-            
             if( estacion1 != 10 && estacion1 != 25){
-                return tiemposA.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
+                return tiemposD.get(estacionEfectiva)[0]; //ya estás subido al tren, va a salir a la hora
             }
             
             while(retraso < 100000){ //debería pararse antes
                 if(horariosLineaD.get(estacion1 == 25 ? 0 : 1).contains(horaActual+retraso)){
-                
                     return tiemposD.get(estacionEfectiva)[0]+retraso;
                 
                  }else retraso++;
@@ -839,8 +828,8 @@ public class algoritmoAestrella{
         private String horaLlegada;
 
         public MapaPanel(ArrayList<Integer> ruta){
-            this.coordenadas = new HashMap();
-            this.conexiones = new HashMap();
+            this.coordenadas = new HashMap<Integer, int[]>();
+            this.conexiones = new HashMap<Integer, int[][]>();
             this.trayecto = ruta;
             horaLlegada = "";
 
@@ -852,8 +841,8 @@ public class algoritmoAestrella{
         }
 
         public MapaPanel(){
-            this.coordenadas = new HashMap();
-            this.conexiones = new HashMap();
+            this.coordenadas = new HashMap<Integer, int[]>();
+            this.conexiones = new HashMap<Integer, int[][]>();
             horaLlegada = "";
 
             this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
@@ -1427,7 +1416,7 @@ public class algoritmoAestrella{
                 System.out.printf("%02d:%02d, ", horarioGaredeVaise.get(i)/60, horarioGaredeVaise.get(i)%60);
         }
         */
-        System.out.println(Aestrella(22,35,23*60+59));
+        System.out.println(Aestrella(15,3,23*60+59));
 
         
     }

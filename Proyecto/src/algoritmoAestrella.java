@@ -913,46 +913,46 @@ public class algoritmoAestrella{
             coordenadas.put(40, new int[]{105, 110}); //Gare de Vaise
 
             //Lineas que crean conexiones entre los puntos (paradas)
-            conexiones.put(1, new int[][]{{coordenadas.get(1)[0]+6,coordenadas.get(1)[1]+19}, {coordenadas.get(2)[0]+16,coordenadas.get(2)[1]+2}});
-            conexiones.put(2, new int[][]{{coordenadas.get(2)[0]+17,coordenadas.get(2)[1]+18}, {coordenadas.get(3)[0]+5,coordenadas.get(3)[1]+2}});
-            conexiones.put(3, new int[][]{{coordenadas.get(3)[0]+17,coordenadas.get(3)[1]+18}, {coordenadas.get(4)[0]+5,coordenadas.get(4)[1]+2}});
-            conexiones.put(4, new int[][]{{coordenadas.get(4)[0]+12,coordenadas.get(4)[1]+20}, {coordenadas.get(5)[0]+10,coordenadas.get(5)[1]}});
-            conexiones.put(5, new int[][]{{coordenadas.get(6)[0]+10,coordenadas.get(6)[1]+20}, {coordenadas.get(7)[0]+14,coordenadas.get(7)[1]+1}});
-            conexiones.put(6, new int[][]{{coordenadas.get(7)[0]+7,coordenadas.get(7)[1]+19}, {coordenadas.get(8)[0]+14,coordenadas.get(8)[1]+1}});
-            conexiones.put(7, new int[][]{{coordenadas.get(8)[0]+3,coordenadas.get(8)[1]+16}, {coordenadas.get(9)[0]+19,coordenadas.get(9)[1]+4}});
-            conexiones.put(8, new int[][]{{coordenadas.get(9)[0]+10,coordenadas.get(9)[1]+20}, {coordenadas.get(10)[0]+14,coordenadas.get(10)[1]}});
-            conexiones.put(9, new int[][]{{coordenadas.get(10)[0]+7,coordenadas.get(10)[1]+19}, {coordenadas.get(11)[0]+14,coordenadas.get(11)[1]}});
-            conexiones.put(10, new int[][]{{coordenadas.get(11)[0]+7,coordenadas.get(11)[1]+19}, {coordenadas.get(12)[0]+14,coordenadas.get(12)[1]}});
-            conexiones.put(11, new int[][]{{coordenadas.get(12)[0]+7,coordenadas.get(12)[1]+19}, {coordenadas.get(13)[0]+14,coordenadas.get(13)[1]}});
-            conexiones.put(12, new int[][]{{coordenadas.get(13)[0]+7,coordenadas.get(13)[1]+19}, {coordenadas.get(14)[0]+14,coordenadas.get(14)[1]}});
-            conexiones.put(13, new int[][]{{coordenadas.get(14)[0]+3,coordenadas.get(14)[1]+17}, {coordenadas.get(15)[0]+17,coordenadas.get(15)[1]+3}});
-            conexiones.put(14, new int[][]{{coordenadas.get(16)[0],coordenadas.get(16)[1]+10}, {coordenadas.get(17)[0]+20,coordenadas.get(17)[1]+12}});
-            conexiones.put(15, new int[][]{{coordenadas.get(17)[0],coordenadas.get(17)[1]+8}, {coordenadas.get(18)[0]+19,coordenadas.get(18)[1]+12}});
-            conexiones.put(16, new int[][]{{coordenadas.get(18)[0],coordenadas.get(18)[1]+8}, {coordenadas.get(19)[0]+20,coordenadas.get(19)[1]+12}});
-            conexiones.put(17, new int[][]{{coordenadas.get(19)[0],coordenadas.get(19)[1]+8}, {coordenadas.get(20)[0]+20,coordenadas.get(20)[1]+13}});
-            conexiones.put(18, new int[][]{{coordenadas.get(20)[0],coordenadas.get(20)[1]+10}, {coordenadas.get(21)[0]+19,coordenadas.get(21)[1]+13}});
-            conexiones.put(19, new int[][]{{coordenadas.get(21)[0],coordenadas.get(21)[1]+11}, {coordenadas.get(6)[0]+20,coordenadas.get(6)[1]+8}});
-            conexiones.put(20, new int[][]{{coordenadas.get(6)[0],coordenadas.get(6)[1]+11}, {coordenadas.get(22)[0]+20,coordenadas.get(22)[1]+9}});
-            conexiones.put(21, new int[][]{{coordenadas.get(22)[0],coordenadas.get(22)[1]+12}, {coordenadas.get(23)[0]+20,coordenadas.get(23)[1]+8}});
-            conexiones.put(22, new int[][]{{coordenadas.get(23)[0],coordenadas.get(23)[1]+10}, {coordenadas.get(5)[0]+20,coordenadas.get(5)[1]+6}});
-            conexiones.put(23, new int[][]{{coordenadas.get(5)[0]+10,coordenadas.get(5)[1]+20}, {coordenadas.get(24)[0]+10,coordenadas.get(24)[1]}});
-            conexiones.put(24, new int[][]{{coordenadas.get(24)[0]+7,coordenadas.get(24)[1]+19}, {coordenadas.get(25)[0]+17,coordenadas.get(25)[1]+2}});
-            conexiones.put(25, new int[][]{{coordenadas.get(25)[0]+6,coordenadas.get(25)[1]+19}, {coordenadas.get(26)[0]+17,coordenadas.get(26)[1]+2}});
-            conexiones.put(26, new int[][]{{coordenadas.get(26)[0]+7,coordenadas.get(26)[1]+20}, {coordenadas.get(27)[0]+15,coordenadas.get(27)[1]+2}});
-            conexiones.put(27, new int[][]{{coordenadas.get(28)[0]+9,coordenadas.get(28)[1]}, {coordenadas.get(29)[0]+12,coordenadas.get(29)[1]+19}});
-            conexiones.put(28, new int[][]{{coordenadas.get(29)[0]+10,coordenadas.get(29)[1]+2}, {coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+20}});
-            conexiones.put(29, new int[][]{{coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+7}, {coordenadas.get(31)[0]+12,coordenadas.get(31)[1]+18}});
-            conexiones.put(30, new int[][]{{coordenadas.get(31)[0]+1,coordenadas.get(31)[1]+6}, {coordenadas.get(32)[0]+17,coordenadas.get(32)[1]+17}});
-            conexiones.put(31, new int[][]{{coordenadas.get(32)[0]+1,coordenadas.get(32)[1]+6}, {coordenadas.get(33)[0]+19,coordenadas.get(33)[1]+13}});
-            conexiones.put(32, new int[][]{{coordenadas.get(33)[0]+1,coordenadas.get(33)[1]+6}, {coordenadas.get(34)[0]+19,coordenadas.get(34)[1]+15}});
-            conexiones.put(33, new int[][]{{coordenadas.get(34)[0]+1,coordenadas.get(34)[1]+6}, {coordenadas.get(35)[0]+17,coordenadas.get(35)[1]+16}});
-            conexiones.put(34, new int[][]{{coordenadas.get(35)[0]+1,coordenadas.get(35)[1]+6}, {coordenadas.get(10)[0]+19,coordenadas.get(10)[1]+14}});
-            conexiones.put(35, new int[][]{{coordenadas.get(10)[0]+1,coordenadas.get(10)[1]+6}, {coordenadas.get(36)[0]+19,coordenadas.get(36)[1]+16}});
-            conexiones.put(36, new int[][]{{coordenadas.get(36)[0],coordenadas.get(36)[1]+8}, {coordenadas.get(25)[0]+20,coordenadas.get(25)[1]+12}});
-            conexiones.put(37, new int[][]{{coordenadas.get(25)[0]+1,coordenadas.get(25)[1]+5}, {coordenadas.get(37)[0]+17,coordenadas.get(37)[1]+17}});
-            conexiones.put(38, new int[][]{{coordenadas.get(37)[0]+1,coordenadas.get(37)[1]+6}, {coordenadas.get(38)[0]+17,coordenadas.get(38)[1]+17}});
-            conexiones.put(39, new int[][]{{coordenadas.get(38)[0]+8,coordenadas.get(38)[1]}, {coordenadas.get(39)[0]+10,coordenadas.get(39)[1]+20}});
-            conexiones.put(40, new int[][]{{coordenadas.get(39)[0]+9,coordenadas.get(39)[1]+1}, {coordenadas.get(40)[0]+12,coordenadas.get(40)[1]+20}});
+            conexiones.put(1, new int[][]{{coordenadas.get(1)[0]+10,coordenadas.get(1)[1]+10}, {coordenadas.get(2)[0]+10,coordenadas.get(2)[1]+10}});
+            conexiones.put(2, new int[][]{{coordenadas.get(2)[0]+10,coordenadas.get(2)[1]+10}, {coordenadas.get(3)[0]+10,coordenadas.get(3)[1]+10}});
+            conexiones.put(3, new int[][]{{coordenadas.get(3)[0]+10,coordenadas.get(3)[1]+10}, {coordenadas.get(4)[0]+10,coordenadas.get(4)[1]+10}});
+            conexiones.put(4, new int[][]{{coordenadas.get(4)[0]+10,coordenadas.get(4)[1]+10}, {coordenadas.get(5)[0]+10,coordenadas.get(5)[1]+10}});
+            conexiones.put(5, new int[][]{{coordenadas.get(6)[0]+10,coordenadas.get(6)[1]+10}, {coordenadas.get(7)[0]+10,coordenadas.get(7)[1]+10}});
+            conexiones.put(6, new int[][]{{coordenadas.get(7)[0]+10,coordenadas.get(7)[1]+10}, {coordenadas.get(8)[0]+10,coordenadas.get(8)[1]+10}});
+            conexiones.put(7, new int[][]{{coordenadas.get(8)[0]+10,coordenadas.get(8)[1]+10}, {coordenadas.get(9)[0]+10,coordenadas.get(9)[1]+10}});
+            conexiones.put(8, new int[][]{{coordenadas.get(9)[0]+10,coordenadas.get(9)[1]+10}, {coordenadas.get(10)[0]+10,coordenadas.get(10)[1]+10}});
+            conexiones.put(9, new int[][]{{coordenadas.get(10)[0]+10,coordenadas.get(10)[1]+10}, {coordenadas.get(11)[0]+10,coordenadas.get(11)[1]+10}});
+            conexiones.put(10, new int[][]{{coordenadas.get(11)[0]+10,coordenadas.get(11)[1]+10}, {coordenadas.get(12)[0]+10,coordenadas.get(12)[1]+10}});
+            conexiones.put(11, new int[][]{{coordenadas.get(12)[0]+10,coordenadas.get(12)[1]+10}, {coordenadas.get(13)[0]+10,coordenadas.get(13)[1]+10}});
+            conexiones.put(12, new int[][]{{coordenadas.get(13)[0]+10,coordenadas.get(13)[1]+10}, {coordenadas.get(14)[0]+10,coordenadas.get(14)[1]+10}});
+            conexiones.put(13, new int[][]{{coordenadas.get(14)[0]+10,coordenadas.get(14)[1]+10}, {coordenadas.get(15)[0]+10,coordenadas.get(15)[1]+10}});
+            conexiones.put(14, new int[][]{{coordenadas.get(16)[0]+10,coordenadas.get(16)[1]+10}, {coordenadas.get(17)[0]+10,coordenadas.get(17)[1]+10}});
+            conexiones.put(15, new int[][]{{coordenadas.get(17)[0]+10,coordenadas.get(17)[1]+10}, {coordenadas.get(18)[0]+10,coordenadas.get(18)[1]+10}});
+            conexiones.put(16, new int[][]{{coordenadas.get(18)[0]+10,coordenadas.get(18)[1]+10}, {coordenadas.get(19)[0]+10,coordenadas.get(19)[1]+10}});
+            conexiones.put(17, new int[][]{{coordenadas.get(19)[0]+10,coordenadas.get(19)[1]+10}, {coordenadas.get(20)[0]+10,coordenadas.get(20)[1]+10}});
+            conexiones.put(18, new int[][]{{coordenadas.get(20)[0]+10,coordenadas.get(20)[1]+10}, {coordenadas.get(21)[0]+10,coordenadas.get(21)[1]+10}});
+            conexiones.put(19, new int[][]{{coordenadas.get(21)[0]+10,coordenadas.get(21)[1]+10}, {coordenadas.get(6)[0]+10,coordenadas.get(6)[1]+10}});
+            conexiones.put(20, new int[][]{{coordenadas.get(6)[0]+10,coordenadas.get(6)[1]+10}, {coordenadas.get(22)[0]+10,coordenadas.get(22)[1]+10}});
+            conexiones.put(21, new int[][]{{coordenadas.get(22)[0]+10,coordenadas.get(22)[1]+10}, {coordenadas.get(23)[0]+10,coordenadas.get(23)[1]+10}});
+            conexiones.put(22, new int[][]{{coordenadas.get(23)[0]+10,coordenadas.get(23)[1]+10}, {coordenadas.get(5)[0]+10,coordenadas.get(5)[1]+10}});
+            conexiones.put(23, new int[][]{{coordenadas.get(5)[0]+10,coordenadas.get(5)[1]+10}, {coordenadas.get(24)[0]+10,coordenadas.get(24)[1]+10}});
+            conexiones.put(24, new int[][]{{coordenadas.get(24)[0]+10,coordenadas.get(24)[1]+10}, {coordenadas.get(25)[0]+10,coordenadas.get(25)[1]+10}});
+            conexiones.put(25, new int[][]{{coordenadas.get(25)[0]+10,coordenadas.get(25)[1]+10}, {coordenadas.get(26)[0]+10,coordenadas.get(26)[1]+10}});
+            conexiones.put(26, new int[][]{{coordenadas.get(26)[0]+10,coordenadas.get(26)[1]+10}, {coordenadas.get(27)[0]+10,coordenadas.get(27)[1]+10}});
+            conexiones.put(27, new int[][]{{coordenadas.get(28)[0]+10,coordenadas.get(28)[1]+10}, {coordenadas.get(29)[0]+10,coordenadas.get(29)[1]+10}});
+            conexiones.put(28, new int[][]{{coordenadas.get(29)[0]+10,coordenadas.get(29)[1]+10}, {coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+10}});
+            conexiones.put(29, new int[][]{{coordenadas.get(30)[0]+10,coordenadas.get(30)[1]+10}, {coordenadas.get(31)[0]+10,coordenadas.get(31)[1]+10}});
+            conexiones.put(30, new int[][]{{coordenadas.get(31)[0]+10,coordenadas.get(31)[1]+10}, {coordenadas.get(32)[0]+10,coordenadas.get(32)[1]+10}});
+            conexiones.put(31, new int[][]{{coordenadas.get(32)[0]+10,coordenadas.get(32)[1]+10}, {coordenadas.get(33)[0]+10,coordenadas.get(33)[1]+10}});
+            conexiones.put(32, new int[][]{{coordenadas.get(33)[0]+10,coordenadas.get(33)[1]+10}, {coordenadas.get(34)[0]+10,coordenadas.get(34)[1]+10}});
+            conexiones.put(33, new int[][]{{coordenadas.get(34)[0]+10,coordenadas.get(34)[1]+10}, {coordenadas.get(35)[0]+10,coordenadas.get(35)[1]+10}});
+            conexiones.put(34, new int[][]{{coordenadas.get(35)[0]+10,coordenadas.get(35)[1]+10}, {coordenadas.get(10)[0]+10,coordenadas.get(10)[1]+10}});
+            conexiones.put(35, new int[][]{{coordenadas.get(10)[0]+10,coordenadas.get(10)[1]+10}, {coordenadas.get(36)[0]+10,coordenadas.get(36)[1]+10}});
+            conexiones.put(36, new int[][]{{coordenadas.get(36)[0]+10,coordenadas.get(36)[1]+10}, {coordenadas.get(25)[0]+10,coordenadas.get(25)[1]+10}});
+            conexiones.put(37, new int[][]{{coordenadas.get(25)[0]+10,coordenadas.get(25)[1]+10}, {coordenadas.get(37)[0]+10,coordenadas.get(37)[1]+10}});
+            conexiones.put(38, new int[][]{{coordenadas.get(37)[0]+10,coordenadas.get(37)[1]+10}, {coordenadas.get(38)[0]+10,coordenadas.get(38)[1]+10}});
+            conexiones.put(39, new int[][]{{coordenadas.get(38)[0]+10,coordenadas.get(38)[1]+10}, {coordenadas.get(39)[0]+10,coordenadas.get(39)[1]+10}});
+            conexiones.put(40, new int[][]{{coordenadas.get(39)[0]+10,coordenadas.get(39)[1]+10}, {coordenadas.get(40)[0]+10,coordenadas.get(40)[1]+10}});
             }
 
         private void creacionMapa(Graphics2D g) {
@@ -1381,7 +1381,10 @@ public class algoritmoAestrella{
                         myTimer = new Timer(20,new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent ae){
-                                mapaPanel.setDimension(new Dimension((int) e.getComponent().getSize().getWidth()/2, (int) e.getComponent().getSize().getHeight()));
+                                if(e.getComponent().getSize().getWidth()<1024)
+                                    mapaPanel.setDimension(new Dimension((int) e.getComponent().getSize().getWidth()/2, (int) e.getComponent().getSize().getHeight()));
+                                else
+                                    mapaPanel.setDimension(new Dimension((int) e.getComponent().getSize().getWidth()/3*2, (int) e.getComponent().getSize().getHeight()));   
                                 mapaPanel.repaint();
                                 myTimer.stop();
                                 timerIsRunning = false;

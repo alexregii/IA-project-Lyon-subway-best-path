@@ -331,14 +331,10 @@ public class algoritmoAestrella{
         Set<Estacion> listaAbierta = new HashSet<>();
         Set<Integer> listaCerrada = new HashSet<>();
         Map<Integer, Estacion> estacionAsociada = new HashMap<>();
-        //Map<Integer, Integer> vieneDe = new HashMap<>();
-        //Map<Integer, Integer> costePorAhora = new HashMap<>();
         Iterator<Integer> it;
         
         listaAbierta.add(new Estacion(inicio, distHeur(inicio, destino), horaIni, -1, 0));
-
-        //vieneDe.put(inicio, -1);
-        //costePorAhora.put(inicio, 0);
+        estacionAsociada.put(inicio, new Estacion(inicio, distHeur(inicio, destino), horaIni, -1, 0));
         Estacion posActual;
         while (!listaAbierta.isEmpty()) {
 
@@ -382,13 +378,11 @@ public class algoritmoAestrella{
                     int nuevoCoste = posActual.getCostePorAhora()+ tiempoTardo; 
 
                     if (!estacionAsociada.containsKey(conexion) || nuevoCoste < posActual.getCostePorAhora()) {
-                        //costePorAhora.put(conexion, nuevoCoste);
                         
                         int funcion = nuevoCoste + distHeur(conexion, destino)/420;  //Ojito 1 min -- 420 m 
                         int horaNueva = (posActual.getHoraLlego() + tiempoTardo )  % 1440; //evitar problemas tiempo
                         estacionAsociada.put(conexion, new Estacion(conexion, funcion, horaNueva, posActual.getPos(), nuevoCoste));
                         listaAbierta.add(new Estacion(conexion, funcion, horaNueva, posActual.getPos(), nuevoCoste));
-                        //vieneDe.put(conexion, posActual.getPos());
                     }
                 }
 
@@ -402,11 +396,11 @@ public class algoritmoAestrella{
 
 
     //Genera el camino sabiendo las direcciones y las estaciones que están en el recorrido. La última posición del array no es una estación, es el coste (minutos)
-    private static ArrayList<Integer> recorrido(Map<Integer, Integer> vieneDe, int actual, int costeTotal) {
+    private static ArrayList<Integer> recorrido(Map<Integer, Estacion> estacionAsociada, int actual, int costeTotal) {
         ArrayList<Integer> caminoRe = new ArrayList<>();
         while (actual != -1) {
             caminoRe.add(actual);
-            actual = vieneDe.get(actual);
+            actual = estacionAsociada.get(actual).getOrigen();
         }
         //Están en orden al revés
         ArrayList<Integer> res = new ArrayList<Integer>();
@@ -1470,7 +1464,7 @@ public class algoritmoAestrella{
                 System.out.printf("%02d:%02d, ", horarioGaredeVaise.get(i)/60, horarioGaredeVaise.get(i)%60);
         }
         
-        System.out.println(Aestrella(15,3,23*60+59));
+        //System.out.println(Aestrella(4,3,23*60+59));
 
         */
     }

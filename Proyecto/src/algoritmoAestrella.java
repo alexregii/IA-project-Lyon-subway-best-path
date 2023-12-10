@@ -330,14 +330,15 @@ public class algoritmoAestrella{
 
         Set<Estacion> listaAbierta = new HashSet<>();
         Set<Integer> listaCerrada = new HashSet<>();
-        Map<Integer, Integer> vieneDe = new HashMap<>();
-        Map<Integer, Integer> costePorAhora = new HashMap<>();
+        Map<Integer, Estacion> estacionAsociada = new HashMap<>();
+        //Map<Integer, Integer> vieneDe = new HashMap<>();
+        //Map<Integer, Integer> costePorAhora = new HashMap<>();
         Iterator<Integer> it;
         
-        listaAbierta.add(new Estacion(inicio, distHeur(inicio, destino), horaIni));
+        listaAbierta.add(new Estacion(inicio, distHeur(inicio, destino), horaIni, -1, 0));
 
-        vieneDe.put(inicio, -1);
-        costePorAhora.put(inicio, 0);
+        //vieneDe.put(inicio, -1);
+        //costePorAhora.put(inicio, 0);
         Estacion posActual;
         while (!listaAbierta.isEmpty()) {
 
@@ -362,7 +363,7 @@ public class algoritmoAestrella{
             listaAbierta.remove(posActual);
 
             if (posActual.getPos() == destino) {
-                return recorrido(vieneDe, destino, costePorAhora.get(destino));
+                return recorrido(estacionAsociada, destino, posActual.getCostePorAhora());
             }
 
             listaCerrada.add(posActual.getPos());
@@ -375,16 +376,19 @@ public class algoritmoAestrella{
 
                 if (!listaCerrada.contains(conexion)) {
 
+                    
                     int tiempoTardo = tiempoAdy(posActual.getPos(), conexion, posActual.getHoraLlego());
+                    
+                    int nuevoCoste = posActual.getCostePorAhora()+ tiempoTardo; 
 
-                    int nuevoCoste = costePorAhora.get(posActual.getPos()) + tiempoTardo; 
-
-                    if (!costePorAhora.containsKey(conexion) || nuevoCoste < costePorAhora.get(conexion)) {
-                        costePorAhora.put(conexion, nuevoCoste);
+                    if (!estacionAsociada.containsKey(conexion) || nuevoCoste < posActual.getCostePorAhora()) {
+                        //costePorAhora.put(conexion, nuevoCoste);
+                        
                         int funcion = nuevoCoste + distHeur(conexion, destino)/420;  //Ojito 1 min -- 420 m 
                         int horaNueva = (posActual.getHoraLlego() + tiempoTardo )  % 1440; //evitar problemas tiempo
-                        listaAbierta.add(new Estacion(conexion, funcion, horaNueva));
-                        vieneDe.put(conexion, posActual.getPos());
+                        estacionAsociada.put(conexion, new Estacion(conexion, funcion, horaNueva, posActual.getPos(), nuevoCoste));
+                        listaAbierta.add(new Estacion(conexion, funcion, horaNueva, posActual.getPos(), nuevoCoste));
+                        //vieneDe.put(conexion, posActual.getPos());
                     }
                 }
 
@@ -420,11 +424,15 @@ public class algoritmoAestrella{
         private final int posicion;
         private final int funcion;
         private final int horaLlego;
+        private int origen;
+        private int costePorAhora;
 
-        public Estacion(int posicion, int funcion, int horaLlego) {
+        public Estacion(int posicion, int funcion, int horaLlego, int origen, int costePorAhora) {
             this.posicion = posicion;
             this.funcion = funcion;
             this.horaLlego = horaLlego;
+            this.origen = origen;
+            this.costePorAhora = costePorAhora;
         }
 
         public int getPos() {
@@ -437,6 +445,18 @@ public class algoritmoAestrella{
 
         public int getHoraLlego() {
             return horaLlego;
+        }
+        public int getOrigen() {
+            return origen;
+        }
+        public void setOrigen(int nuevoOrigen) {
+            this.origen = nuevoOrigen;
+        }
+        public int getCostePorAhora() {
+            return costePorAhora;
+        }
+        public void setCostePorAhoran(int costePorAhora) {
+            this.costePorAhora = costePorAhora;
         }
     }
 

@@ -1026,6 +1026,16 @@ public class algoritmoAestrella{
                 g.setColor(Color.black);
                 g.setFont(g.getFont().deriveFont(30.0f * Float.parseFloat(String.valueOf(this.ratio))));
                 g.drawString("Hora de llegada: " + horaLlegada, ratioConv(710), ratioConv(30));
+	    	g.drawString("Origen", ratioConv(125), ratioConv(970));
+                g.drawString("Parada intermedia", ratioConv(265), ratioConv(970));
+                g.drawString("Destino", ratioConv(575), ratioConv(970));
+                
+                g.setColor(Color.green);
+                g.fillOval(ratioConv(100), ratioConv(950), ratioConv(19), ratioConv(19));
+                g.setColor(Color.CYAN);
+                g.fillOval(ratioConv(240), ratioConv(950), ratioConv(19), ratioConv(19));
+                g.setColor(Color.red);
+                g.fillOval(ratioConv(550), ratioConv(950), ratioConv(19), ratioConv(19));
             }
         }
         

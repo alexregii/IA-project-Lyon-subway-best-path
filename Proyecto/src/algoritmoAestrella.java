@@ -854,19 +854,6 @@ public class algoritmoAestrella{
         private String horaLlegada;
         private double ratio = 1;
 
-        public MapaPanel(ArrayList<Integer> ruta){
-            this.coordenadas = new HashMap<Integer, int[]>();
-            this.conexiones = new HashMap<Integer, int[][]>();
-            this.trayecto = ruta;
-            horaLlegada = "";
-
-            this.setPreferredSize(new Dimension(pantallaLargo, pantallaAncho));
-            this.setBackground(Color.white);
-            this.setDoubleBuffered(true);
-
-            inicializarcoordenadas();
-        }
-
         public MapaPanel(Dimension dimension){
             this.coordenadas = new HashMap<Integer, int[]>();
             this.conexiones = new HashMap<Integer, int[][]>();
@@ -1304,7 +1291,7 @@ public class algoritmoAestrella{
              *  Layout del Frame principal
              */
             
-            //El panel mapa empieza en 1,0 y ocupa 3 filas y 2 columnas
+            //El panel mapa empieza en 1,0 y ocupa 4 filas y 3 columnas
             constraints.gridx = 1;
             constraints.gridy = 0;
             constraints.gridwidth = 3;
@@ -1313,7 +1300,7 @@ public class algoritmoAestrella{
             constraints.anchor = GridBagConstraints.CENTER;
             constraints.weighty = 1.0;
             constraints.weightx = 1.0;
-            constraints.insets = new Insets(10,10,10,50);
+            constraints.insets = new Insets(10,10,10,20);
             this.getContentPane().add(mapaPanel,constraints);
 
             //Panel origen
@@ -1398,7 +1385,7 @@ public class algoritmoAestrella{
                         myTimer = new Timer(20,new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent ae){
-                                if(e.getComponent().getSize().getWidth()<1024)
+                                if(e.getComponent().getSize().getWidth()<1040)
                                     mapaPanel.setDimension(new Dimension((int) e.getComponent().getSize().getWidth()/2, (int) e.getComponent().getSize().getHeight()));
                                 else
                                     mapaPanel.setDimension(new Dimension((int) e.getComponent().getSize().getWidth()/3*2, (int) e.getComponent().getSize().getHeight()));   
@@ -1410,33 +1397,7 @@ public class algoritmoAestrella{
                         myTimer.start();
                     }
                 }
-              });            
-            
-            //Espacio al final
-            /*JLabel espacio = new JLabel(" ");
-
-            constraints.gridx = 0;
-            constraints.gridy = 4;
-            constraints.gridwidth = 3;
-            constraints.gridheight = 1;
-            constraints.anchor = GridBagConstraints.CENTER;
-            constraints.fill = GridBagConstraints.BOTH;
-            constraints.weightx = 0;
-            constraints.weighty = 0.05;
-            this.getContentPane().add(espacio,constraints);
-
-            //esapcio a la derecha del boton
-            JLabel espacio1 = new JLabel(" ");
-
-            constraints.gridx = 2;
-            constraints.gridy = 3;
-            constraints.gridwidth = 1;
-            constraints.gridheight = 1;
-            constraints.anchor = GridBagConstraints.CENTER;
-            constraints.fill = GridBagConstraints.BOTH;
-            constraints.weightx = 1;
-            constraints.weighty = 0.05;
-            this.getContentPane().add(espacio1,constraints);*/
+              });
         }
     }
     

@@ -1409,7 +1409,7 @@ public class algoritmoAestrella{
                         myTimer = new Timer(20,new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent ae){
-                                mapaPanel.setDimension(new Dimension((int) e.getComponent().getSize().getWidth()-400, (int) e.getComponent().getSize().getHeight()-50));  
+                                mapaPanel.setDimension(new Dimension((int) mapaPanel.getSize().getWidth(), (int) mapaPanel.getSize().getHeight()));   
                                 mapaPanel.repaint();
                                 myTimer.stop();
                                 timerIsRunning = false;
